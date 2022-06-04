@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New User Details</title>
+    <style>
+        .container{
+            margin-top: 120px;
+        }
+        h2{
+            text-align: center;
+        }
+        body{
+            background-color : #F7F7F7!important;
+        }
+        .box{
+            margin-left: 200px;
+            margin-top: 14px;
+        }
+        label{
+            margin: 40px;
+        }
+        input{
+            text-align: center;
+            width: 230px;
+        }
+        .btn{
+            float: right;
+            margin-top: 30px;
+            margin-right: 100px;
+            width: 120px;
+            padding: 6px;
+            background-color: black;
+            color: white;
+        }
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        window.onload = function() {
+            swal({
+                title: "Success !",
+                text: "Details has been saved successfully ",
+                icon: "success",
+                button: "OK !",
+            });
+        };
+    </script>
+</head>
+<body>
+<form th:object="${data}">
+<div class="container">
+    <h2>New User Details</h2>
+<div class="box">
+    <label for="accountNo"> Your Account Number Is
+        <input type="text" id="accountNo" th:field="*{AccountNo}" style="margin-left: 42px">
+    </label>
+    <label for="amount"> Enter Amount
+        <input type="text" id="Amount" th:field="*{Amount}" required style="margin-left: 85px">
+    </label>
+</div>
+<div class="box">
+    <label for="loginId"> Enter Your LoGin Id
+        <input type="text" id="loginId" th:field="*{loginId}" required style="margin-left: 70px">
+    </label>
+    <label for="password"> Enter Your Password
+        <input type="password" id="password" th:field="*{password}" required style="margin-left: 40px">
+    </label>
+</div>
+    <button class="btn" onclick="SaveNewUserDetails()">Submit</button>
+</div>
+</form>
+</body>
+</html>

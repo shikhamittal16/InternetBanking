@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<script th:src="CommonJS.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>LoGin To YouR Account</title>
+    <style>
+        body{
+            background-image: url("https://image.freepik.com/free-vector/banking-business-banner-finance-savings-abstract-silhouette-city-background_48369-11856.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        .login{
+            text-align: center;
+            margin-top: 250px;
+        }
+        input{
+            background-color: transparent;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            text-align: center;
+            width: 300px;
+            color: black;
+            font-size: larger;
+            font-weight: bolder;
+        }
+        .submit {
+            width: 250px;
+            background-color: black;
+            color: white;
+            padding: 3px;
+            cursor: pointer;
+        }
+        .btn{
+            margin-top: 20px;
+            width: 250px;
+            background-color: black;
+            color: white;
+            padding: 3px;
+            cursor: pointer;
+        }
+        .box{
+            margin-bottom: 50px;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function newUserDetails(){
+            window.location.href = "newUserDetails";
+        }
+
+        function login(){
+            var login = $('#loginId').val();
+            var password = $('#password').val();
+            var obj = {
+                loginId : login,
+                password : password
+            }
+            $.ajax({
+                url : "login",
+                type : "GET",
+                data : obj ,
+                success : function (data){
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="login">
+        <div class="box">
+            <input type="text" name="loginId" id="loginId" placeholder="Enter LoGin Id" required>
+        </div>
+        <div class="box">
+            <input type="password" name="password" id="password" placeholder="Enter Password" required>
+        </div>
+        <button class="submit" onclick="login()">LoGin</button>
+        <button class="btn"  onclick="newUserDetails()">New User Account</button>
+</div>
+</body>
+</html>
