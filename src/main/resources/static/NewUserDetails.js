@@ -25,49 +25,76 @@ function SaveNewUserDetails(){
     var accountType= $('#AccountType').val();
     var bankName= $('#BankName').val();
     var Ifsc= $('#IFSC').val();
-    var obj = {
-        FullName : name ,
-        DOB : dob,
-        SpouseName : spouse,
-        FatherName : fathername,
-        Address : address,
-        City : city,
-        State : state,
-        PinCode : pincode,
-        Religion : religion,
-        Category : category,
-        PanCardNumber : panCard,
-        AadharNo : aadhar,
-        voterId : voter,
-        MobileNumber : mobile,
-        AlternateMobileNo : alternateMobile,
-        Gender : gender,
-        MaritalStatus : marital,
-        AccountType : accountType,
-        Qualification : qualification,
-        Occupation : occupation,
-        emailId : email,
-        NomineeName : nominee,
-        NomineeRelation : nomineeReltn,
-        NomineeDOB : nomineeDob,
-        BankName : bankName,
-        IFSC : Ifsc,
-    };
-    $.ajax({
-        url : "saveNewUserDetails" ,
-        type : "GET" ,
-        data : obj ,
-        success : function (data){
-            if(data === "success"){
-                window.location.href = "newUserDetails2";
+    var District = $('#District').val();
+    var BankBranch = $('#BankBranch').val();
+    if(name === "" || bankName === "" || District === "" || Ifsc === "" || accountType === "" || aadhar === "" || religion === "" || category === ""
+       || gender === "" || dob === "" || mobile === "" || marital === "" || pincode === "") {
+            swal({
+                title: "Error !",
+                text: "Please fill All Required Details.",
+                button: "OK !",
+            });
+    }
+    if(marital === "Married" && spouse === ""){
+        swal({
+            title: "Error !",
+            text: "Please Enter Spouse Name.",
+            button: "OK !",
+        });
+    }
+    else if(marital !== "Married" && fathername === ""){
+        swal({
+            title: "Error !",
+            text: "Please Enter Father Name.",
+            button: "OK !",
+        });
+    }
+    else{
+        var obj = {
+            FullName: name,
+            DOB: dob,
+            SpouseName: spouse,
+            FatherName: fathername,
+            Address: address,
+            City: city,
+            State: state,
+            PinCode: pincode,
+            Religion: religion,
+            Category: category,
+            PanCardNumber: panCard,
+            AadharNo: aadhar,
+            voterId: voter,
+            MobileNumber: mobile,
+            AlternateMobileNo: alternateMobile,
+            Gender: gender,
+            MaritalStatus: marital,
+            AccountType: accountType,
+            Qualification: qualification,
+            Occupation: occupation,
+            emailId: email,
+            NomineeName: nominee,
+            NomineeRelation: nomineeReltn,
+            NomineeDOB: nomineeDob,
+            BankName: bankName,
+            IFSC: Ifsc,
+            District : District,
+            BankBranch : BankBranch,
+        };
+        $.ajax({
+            url: "saveNewUserDetails",
+            type: "GET",
+            data: obj,
+            success: function (data) {
+                if (data === "success") {
+                    window.location.href = "newUserDetails2";
+                }else {
+                    swal({
+                        title: "Error !",
+                        text: "Please try Again .",
+                        button: "OK !",
+                    });
+                }
             }
-            else{
-                swal({
-                    title: "Error !",
-                    text: "Please try Again .",
-                    button: "OK !",
-                });
-            }
-        }
-    })
+        })
+    }
 }

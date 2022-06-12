@@ -11,6 +11,7 @@ public class BankController {
     @Autowired
     private NewUserRepo repo;
     private static final String SUCCESSFUL_FLAG = "success";
+    private static final String UNSUCCESSFUL_FLAG = "fail";
 
     @RequestMapping("/login")
     public String Login(){
@@ -45,9 +46,8 @@ public class BankController {
     @ResponseBody
     public String SaveNewUserDetails(NewUserDetails newUserDetails){
         try{
-            System.out.println("ji");
-            repo.save(newUserDetails);
-            return SUCCESSFUL_FLAG;
+                repo.save(newUserDetails);
+                return SUCCESSFUL_FLAG;
         }catch (Exception ex){
             throw ex;
         }

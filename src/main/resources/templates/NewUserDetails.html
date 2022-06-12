@@ -53,14 +53,14 @@
     <p>Personal Information</p>
     <div class="box">
         <label for="FullName"> Full Name
-            <input style="margin-left: 60px" type="text" class="input" name="FullName" id="FullName" onfocusout="" th:field="*{FullName}" required>
+            <input style="margin-left: 60px" type="text" class="input" id="FullName" th:field="*{FullName}" required>
         </label>
         <label for="dob"> Date of Birth
-            <input  style="margin-left: 51px" type="date" th:field="*{DOB}" name="DOB" id="dob" required>
+            <input  style="margin-left: 51px" type="date" th:field="*{DOB}" id="dob" required>
         </label>
         <label for="gender"> Gender
-            <select name="Gender" id="gender" style="margin-left: 74px" th:field="*{Gender}" required>
-                <option value="not selected" selected>Select Gender</option>
+            <select id="gender" style="margin-left: 74px" th:field="*{Gender}" required>
+                <option value="" selected>Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -69,10 +69,10 @@
     </div>
     <div class="box">
         <label for="FatherName"> Father Name
-            <input style="margin-left: 45px" type="text"  th:field="*{FatherName}" name="FatherName" id="FatherName" required>
+            <input style="margin-left: 45px" type="text"  th:field="*{FatherName}" id="FatherName">
         </label>
         <label for="MaritalStatus"> Marital Status
-            <select name="MaritalStatus" id="MaritalStatus" required th:field="*{MaritalStatus}" style="margin-left: 45px">
+            <select id="MaritalStatus" required th:field="*{MaritalStatus}" style="margin-left: 45px">
                 <option value="" selected>Select Marital Status</option>
                 <option value="Married">Married</option>
                 <option value="Unmarried">Unmarried</option>
@@ -81,56 +81,56 @@
             </select>
         </label>
         <label for="SpouseName"> Spouse Name
-            <input style="margin-left: 30px" type="text"  th:field="*{SpouseName}" name="SpouseName" id="SpouseName" required>
+            <input style="margin-left: 30px" type="text"  th:field="*{SpouseName}" id="SpouseName">
         </label>
     </div>
     <div class="box">
         <label for="Phn"> Mobile No
-            <input style="margin-left: 58px" type="text"  th:field="*{MobileNumber}" name="MobileNumber" id="Phn" maxlength="10" minlength="10" required>
+            <input style="margin-left: 58px" type="text"  th:field="*{MobileNumber}" id="Phn" maxlength="10" minlength="10" required>
         </label>
         <label for="AlternateMobileNo"> Alternate Mobile No
-            <input type="text" th:field="*{AlternateMobileNo}" style="margin-left: 3px" name="AlternateMobileNo" id="AlternateMobileNo" maxlength="12" minlength="12" required>
+            <input type="text" th:field="*{AlternateMobileNo}" style="margin-left: 3px" id="AlternateMobileNo" maxlength="12" minlength="12">
         </label>
         <label for="email"> E-Mail Id
-            <input style="margin-left: 55px" type="email" th:field="*{EmailId}" name="EmailId" id="email" required>
+            <input style="margin-left: 55px" type="email" th:field="*{EmailId}" id="email">
         </label>
     </div>
     <div class="box">
         <label for="aadhar"> Aadhar No
-            <input style="margin-left: 57px" type="text" th:field="*{AadharNo}" name="AadharNo" id="aadhar" maxlength="12" minlength="12" required>
+            <input style="margin-left: 57px" type="text" th:field="*{AadharNo}" id="aadhar" maxlength="12" minlength="12" required>
         </label>
         <label for="pan"> PAN Card No
-            <input style="margin-left: 48px" type="text"  th:field="*{PanCardNumber}" name="PanCardNumber" id="pan"  maxlength="10" minlength="10" required>
+            <input style="margin-left: 48px" type="text"  th:field="*{PanCardNumber}" id="pan"  maxlength="10" minlength="10">
         </label>
         <label for="voterId"> Voter ID
-            <input style="margin-left: 61px" type="text"  th:field="*{voterId}" name="voterId" id="voterId" required>
+            <input style="margin-left: 61px" type="text"  th:field="*{voterId}" id="voterId">
         </label>
     </div>
     <div class="box">
         <label for="address"> Address
-            <input style="margin-left: 75px" type="text"  th:field="*{Address}" name="Address" id="address" required >
+            <input style="margin-left: 75px" type="text"  th:field="*{Address}" id="address" required >
         </label>
         <label for="city"> City
-            <input style="margin-left: 110px" type="text" th:field="*{City}" name="City" id="city" required>
+            <input style="margin-left: 110px" type="text" th:field="*{City}" id="city" required>
         </label>
         <label for="state"> State
-            <input style="margin-left: 85px; text-align: center" type="text" th:field="*{State}" name="State" id="state"  required>
+            <input style="margin-left: 85px; text-align: center" type="text" th:field="*{State}" id="state"  required>
         </label>
     </div>
     <div class="box">
         <label for="PinCode"> PinCode
-            <input style="margin-left: 72px" type="text" th:field="*{PinCode}" name="PinCode" id="PinCode"  required>
+            <input style="margin-left: 72px" type="text" th:field="*{PinCode}" id="PinCode"  required>
         </label>
         <label for="qualification"> Qualification
-            <input style="margin-left: 54px" type="text" th:field="*{Qualification}" name="Qualification" id="qualification" required>
+            <input style="margin-left: 54px" type="text" th:field="*{Qualification}" id="qualification">
         </label>
         <label for="Occupation"> Occupation
-            <input style="margin-left: 44px" type="text" th:field="*{Occupation}" name="Occupation" id="Occupation"required>
+            <input style="margin-left: 44px" type="text" th:field="*{Occupation}" id="Occupation">
         </label>
     </div>
     <div class="box">
         <label for="Religion"> Religion
-            <select name="Religion" id="Religion" style="margin-left: 72px">
+            <select id="Religion" style="margin-left: 72px" required>
                 <option value="" style="font-size: small" selected>Select Religion</option>
                 <option value="Hindu" style="font-size: small" >Hindu</option>
                 <option value="Muslim" style="font-size: small" >Muslim</option>
@@ -139,7 +139,7 @@
             </select>
         </label>
         <label for="Category"> Category
-            <select name="Category" id="Category" style="margin-left: 79px;">
+            <select id="Category" style="margin-left: 79px;" required>
                 <option value="" style="font-size: small" selected>Select Category</option>
                 <option value="General" style="font-size: small" >General</option>
                 <option value="OBC" style="font-size: small" >OBC</option>
@@ -151,19 +151,19 @@
     <p>Nominee Details</p>
         <div class="box">
             <label for="NomineeName"> Nominee Name
-                <input style="margin-left: 26px" type="text" th:field="*{NomineeName}" name="NomineeName" id="NomineeName" required>
+                <input style="margin-left: 26px" type="text" th:field="*{NomineeName}" id="NomineeName">
             </label>
             <label for="NomineeRelation"> Nominee Relation
-                <input style="margin-left: 22px" type="text" th:field="*{NomineeRelation}" name="NomineeRelation" id="NomineeRelation" required>
+                <input style="margin-left: 22px" type="text" th:field="*{NomineeRelation}" id="NomineeRelation">
             </label>
             <label for="NomineeDOB"> Nominee DOB
-                <input style="margin-left: 21px" type="text" th:field="*{NomineeDOB}" name="NomineeDOB" id="NomineeDOB" required>
+                <input style="margin-left: 21px" type="text" th:field="*{NomineeDOB}" id="NomineeDOB">
             </label>
         </div>
     <p>Account Information</p>
     <div class="box">
         <label for="AccountType"> Account Type
-            <select name="AccountType" id="AccountType" style="margin-left: 37px">
+            <select id="AccountType" style="margin-left: 37px" required>
                 <option value="" style="font-size: small" selected>Select Account Type</option>
                 <option value="Current Account" style="font-size: small" >Current Account</option>
                 <option value="Saving Account" style="font-size: small" >Saving Account</option>
@@ -172,19 +172,19 @@
             </select>
         </label>
         <label for="BankName"> Bank Name
-            <input style="margin-left: 63px" type="text" th:field="*{BankName}" name="BankName" id="BankName" required>
+            <input style="margin-left: 63px" type="text" th:field="*{BankName}" id="BankName" required>
         </label>
         <label for="IFSC"> IFSC Code
-            <input style="margin-left: 46px" type="text" th:field="*{IFSC}" name="IFSC" id="IFSC" required>
+            <input style="margin-left: 46px" type="text" th:field="*{IFSC}" id="IFSC" required>
         </label>
     </div>
 
     <div class="box">
         <label for="BankBranch"> Bank Branch
-            <input style="margin-left: 42px" type="text" th:field="*{BankBranch}" name="BankBranch" id="BankBranch" required>
+            <input style="margin-left: 42px" type="text" th:field="*{BankBranch}" id="BankBranch" required>
         </label>
         <label for="District"> District
-            <input style="margin-left: 91px" type="text" th:field="*{District}" name="District" id="District" required>
+            <input style="margin-left: 91px" type="text" th:field="*{District}" id="District" required>
         </label>
     </div>
     <button class="btn" onclick="SaveNewUserDetails()">Submit</button>
