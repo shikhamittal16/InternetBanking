@@ -34,6 +34,7 @@
             padding: 6px;
             background-color: black;
             color: white;
+            cursor: pointer;
         }
         p{
             background-color: gainsboro;
@@ -49,7 +50,7 @@
 <div class="container">
     <h2>New User Details</h2>
     <form th:object="${data}">
-    <input type="hidden" th:field="*{AccountNo}">
+    <input type="hidden" th:field="*{newUserDetailsPK.AccountNo}">
     <p>Personal Information</p>
     <div class="box">
         <label for="FullName"> Full Name
@@ -86,7 +87,7 @@
     </div>
     <div class="box">
         <label for="Phn"> Mobile No
-            <input style="margin-left: 58px" type="text"  th:field="*{MobileNumber}" id="Phn" maxlength="10" minlength="10" required>
+            <input style="margin-left: 58px" type="text"  th:field="*{newUserDetailsPK.MobileNumber}" id="Phn" maxlength="10" minlength="10" required>
         </label>
         <label for="AlternateMobileNo"> Alternate Mobile No
             <input type="text" th:field="*{AlternateMobileNo}" style="margin-left: 3px" id="AlternateMobileNo" maxlength="12" minlength="12">
@@ -97,7 +98,7 @@
     </div>
     <div class="box">
         <label for="aadhar"> Aadhar No
-            <input style="margin-left: 57px" type="text" th:field="*{AadharNo}" id="aadhar" maxlength="12" minlength="12" required>
+            <input style="margin-left: 57px" type="text" th:field="*{newUserDetailsPK.AadharNo}" id="aadhar" maxlength="12" minlength="12" required>
         </label>
         <label for="pan"> PAN Card No
             <input style="margin-left: 48px" type="text"  th:field="*{PanCardNumber}" id="pan"  maxlength="10" minlength="10">

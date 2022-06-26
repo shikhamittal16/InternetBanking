@@ -27,13 +27,12 @@ function SaveNewUserDetails(){
     var Ifsc= $('#IFSC').val();
     var District = $('#District').val();
     var BankBranch = $('#BankBranch').val();
-    if(name === "" || bankName === "" || District === "" || Ifsc === "" || accountType === "" || aadhar === "" || religion === "" || category === ""
-       || gender === "" || dob === "" || mobile === "" || marital === "" || pincode === "") {
-            swal({
-                title: "Error !",
-                text: "Please fill All Required Details.",
-                button: "OK !",
-            });
+    if(marital === ""){
+        swal({
+            title: "Error !",
+            text: "Please Enter All the Required Details.",
+            button: "OK !",
+        });
     }
     if(marital === "Married" && spouse === ""){
         swal({
@@ -82,11 +81,18 @@ function SaveNewUserDetails(){
         };
         $.ajax({
             url: "saveNewUserDetails",
-            type: "GET",
+            type: "POST",
             data: obj,
             success: function (data) {
                 if (data === "success") {
-                    window.location.href = "newUserDetails2";
+                    swal({
+                        title: "Success!",
+                        text: "Your Details has been Saved Successfully.",
+                        timer: 1000,
+                    }, function (){
+                        console.log("hi")
+                        window.location.href = "newUserDetails2";
+                    });
                 }else {
                     swal({
                         title: "Error !",
@@ -97,4 +103,55 @@ function SaveNewUserDetails(){
             }
         })
     }
+}
+
+function SaveNewUserDetails2(){
+    var accountNo = $('#accountNo').val();
+    var Amount = $('#Amount').val();
+    var loginId = $('#loginId').val();
+    var password = $('#password').val();
+    if(accountNo === "" || Amount === "" || loginId === "" || password === ""){
+        swal({
+            title: "Error !",
+            text: "Please fill All Required Details.",
+            button: "OK !",
+        });
+    }
+    else if(Amount < 1000){
+        swal({
+            title: "Error !",
+            text: "Amount should be more than 1000.",
+            button: "OK !",
+        });
+    }
+    else{
+        var obj = {
+            loginId : loginId,
+            password : password,
+            Amount : Amount,
+        }
+        $.ajax({
+            url: "saveNewUserDetails",
+            type: "POST",
+            data: obj,
+            success: function (data) {
+                if (data === "success") {
+                        swal({
+                        title: "Success!",
+                        text: "Your Account has been Created Successfully.",
+                        timer: 1000,
+                    }, function (){
+                            window.location.href = "login";
+                        });
+                }else {
+                    swal({
+                        title: "Error !",
+                        text: "Please try Again .",
+                        button: "OK !",
+                    });
+                }
+            }
+        })
+    }
+
 }

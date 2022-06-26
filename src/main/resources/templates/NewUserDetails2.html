@@ -32,25 +32,18 @@
             padding: 6px;
             background-color: black;
             color: white;
+            cursor: pointer;
         }
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-        window.onload = function() {
-            swal({
-                title: "Success !",
-                text: "Details has been saved successfully ",
-                icon: "success",
-                button: "OK !",
-            });
-        };
-    </script>
+    <script th:src="NewUserDetails.js"></script>
 </head>
 <body>
 <form th:object="${data}">
 <div class="container">
     <h2>New User Details</h2>
+    <input type="hidden" th:field="*{AccountNo}">
 <div class="box">
     <label for="accountNo"> Your Account Number Is
         <input type="text" id="accountNo" th:field="*{AccountNo}" style="margin-left: 42px">
@@ -67,7 +60,7 @@
         <input type="password" id="password" th:field="*{password}" required style="margin-left: 40px">
     </label>
 </div>
-    <button class="btn" onclick="SaveNewUserDetails()">Submit</button>
+    <button class="btn" onclick="SaveNewUserDetails2()">Submit</button>
 </div>
 </form>
 </body>
