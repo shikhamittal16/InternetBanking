@@ -85,14 +85,7 @@ function SaveNewUserDetails(){
             data: obj,
             success: function (data) {
                 if (data === "success") {
-                    swal({
-                        title: "Success!",
-                        text: "Your Details has been Saved Successfully.",
-                        timer: 1000,
-                    }, function (){
-                        console.log("hi")
-                        window.location.href = "newUserDetails2";
-                    });
+                    window.location.href = "newUserDetails2";
                 }else {
                     swal({
                         title: "Error !",

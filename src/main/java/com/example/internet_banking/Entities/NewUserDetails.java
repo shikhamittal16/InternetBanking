@@ -1,10 +1,9 @@
-package com.example.internet_banking;
+package com.example.internet_banking.Entities;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -14,9 +13,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class NewUserDetails implements Serializable {
-    private static final long serialVersionUID = -1075011096034744674L;
-    @EmbeddedId
-    private NewUserDetailsPK newUserDetailsPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id ;
     private String FullName;
     private String DOB;
     private String SpouseName;
@@ -27,9 +26,7 @@ public class NewUserDetails implements Serializable {
     private String PinCode;
     private String Religion;
     private String Category;
-    @Column(unique = true)
     private String PanCardNumber;
-    @Column(unique = true)
     private String voterId;
     private String AlternateMobileNo;
     private String Gender;
@@ -49,11 +46,10 @@ public class NewUserDetails implements Serializable {
     private Date createdOn;
     private String BankBranch;
     private String District;
-    @JoinColumns({
-            @JoinColumn(name = "ACCOUNT_NO", referencedColumnName = "ACCOUNT_NO", insertable = false, updatable = false),
-            @JoinColumn(name = "AADHAR_NO", referencedColumnName = "AADHAR_NO", insertable = false, updatable = false),
-            @JoinColumn(name = "MOBILE_NO" , referencedColumnName = "MOBILE_NO" , insertable = false , updatable = false)})
-    @OneToOne(optional = false , fetch = FetchType.LAZY)
-    private NewUserDetails2 newUserDetails2;
+    @OneToOne(mappedBy = "userDetails" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserAccountInfo userAccountInfo;
+    @JoinColumn(name = "accountNo")
+    @OneToOne(fetch = FetchType.LAZY)
+    private UserAccountInfo accountInfo;
 }
 
