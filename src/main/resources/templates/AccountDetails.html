@@ -17,12 +17,12 @@
     <div class="card bg-light mb-3">
         <div class="card-header">Banking Account</div>
         <div class="card-body">
-            <h5 class="card-title" style="color: crimson">${depositBalance}</h5>
+            <h5 class="card-title" style="color: crimson"><span th:text="${accountDetails.depositBalance}"></span></h5>
             <p class="card-text">Combined Available Balance</p>
             <div class="container" style="display: flex">
-                <div class="box">CRN Name &nbsp; ${custName}</div>
-                <div class="box">CRN # &nbsp; ${accountNo}</div>
-                <div class="box">Currency &nbsp; ${currency}</div>
+                <div class="box">CRN Name &nbsp&nbsp;<span style="color:darkslategrey;font-style: italic;" th:text="${accountDetails.custName}"></span></div>
+                <div class="box">CRN # &nbsp; &nbsp;<span style="color: darkslategrey;font-style: italic;" th:text="${accountDetails.accountNo}"></span></div>
+                <div class="box">Currency &nbsp&nbsp;<span style="color: darkslategrey;font-style: italic;" th:text="${accountDetails.currency}"></span></div>
             </div>
         </div>
     </div>
@@ -30,46 +30,46 @@
     <div class="card bg-light mb-3" style="margin-top: 40px">
         <div class="card-header">Savings / Current Account</div>
         <div class="card-body">
-            <h5 class="card-text">Savings / Current Account Summary</h5>
+            <h5 class="card-text" style="color: crimson">Savings / Current Account Summary</h5>
             <div style="display: flex">
                 <div class="box">
                     <div style="margin-top: 10px">
                         Account Name
                     </div>
-                    <div style="font-style: italic">
-                        ${custName}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.custName}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px;">
                        Account #
                     </div>
-                    <div style="font-style: italic">
-                        ${accountNo}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.accountNo}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px;">
                         Account Type
                     </div>
-                    <div style="font-style: italic">
-                        ${accType}
+                    <div style="font-style: italic;color: darkslategrey">
+                       <span th:text="${accountDetails.accountType}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px;">
                         Balance
                     </div>
-                    <div style="font-style: italic">
-                        ${depositBalance}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.depositBalance}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px">
                         Withdrawable
                     </div>
-                    <div style="font-style: italic">
-                        ${depositBalance}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.withdrawableBalance}"></span>
                     </div>
                 </div>
             </div>
@@ -79,46 +79,46 @@
     <div class="card bg-light mb-3" style="margin-top: 40px">
         <div class="card-header">Fixed and Recurring Deposit</div>
         <div class="card-body">
-            <h5 class="card-text">Fixed and Recurring Deposit Summary</h5>
+            <h5 class="card-text" style="color: crimson">Fixed and Recurring Deposit Summary</h5>
             <div style="display: flex">
                 <div class="box">
                     <div style="margin-top: 10px">
                         Account Name
                     </div>
-                    <div style="font-style: italic">
-                        ${custName}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.custName}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px;">
                         Account #
                     </div>
-                    <div style="font-style: italic">
-                        ${accountNo}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.accountNo}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px;">
                         Account Type
                     </div>
-                    <div style="font-style: italic">
-                        ${accType}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.accountType}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px;">
                         Balance
                     </div>
-                    <div style="font-style: italic">
-                        ${depositBalance}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.depositBalance}"></span>
                     </div>
                 </div>
                 <div class="box">
                     <div style="margin-top: 10px">
                         Withdrawable
                     </div>
-                    <div style="font-style: italic">
-                        ${depositBalance}
+                    <div style="font-style: italic;color: darkslategrey">
+                        <span th:text="${accountDetails.withdrawableBalance}"></span>
                     </div>
                 </div>
             </div>

@@ -48,6 +48,7 @@ public class NewUsersService {
             accountInfo.setPassword(userAccountInfo.get("password"));
             accountInfo.setLoginUserName(userAccountInfo.get("loginUserName"));
             accountInfo.setDepositBalance(new BigDecimal(userAccountInfo.get("depositBalance")));
+            accountInfo.setCrnName(userDetails.getFullName());
             userAccountRepo.save(accountInfo);
             userDetails.setAccountInfo(accountInfo);
             userDetailsRepo.save(userDetails);

@@ -20,4 +20,9 @@ public class UserAccountInfo {
     @JoinColumn(name = "userDetailsId")
     private NewUserDetails userDetails ;
     private BigDecimal depositBalance ;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String crnNumber ;
+    private String crnName ;
+    private String currency ;
+    private BigDecimal withdrawableBalance;
 }

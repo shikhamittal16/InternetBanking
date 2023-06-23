@@ -4,6 +4,7 @@ import com.example.internet_banking.Entities.NewUserDetails;
 import com.example.internet_banking.Entities.UserAccountInfo;
 import com.example.internet_banking.Repositories.NewUserRepo;
 import com.example.internet_banking.Repositories.UserAccountRepo;
+import com.example.internet_banking.Services.BankService;
 import com.example.internet_banking.Services.NewUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,15 +21,8 @@ import java.util.Optional;
 public class BankController {
     @Autowired
     private NewUsersService usersService;
-
-    @RequestMapping("/login")
-    public String Login(){
-        try{
-            return "Login.html";
-        }catch(Exception ex){
-            throw ex;
-        }
-    }
+    @Autowired
+    private BankService bankService;
 
     @RequestMapping("/home")
     public String homeNavbar(){
@@ -94,7 +88,10 @@ public class BankController {
     }
 
     @RequestMapping("/accountDetails")
-    public String accountDetails(){
+    public String accountDetails(Model model){
+        HashMap<String,String> responseMap = new HashMap<>();
+        responseMap = bankService.fetchUserAccountDetails();
+        model.addAttribute("accountDetails",responseMap);
         return "AccountDetails.html";
     }
 }
