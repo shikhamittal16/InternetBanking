@@ -1,5 +1,6 @@
 package com.example.internet_banking.Controllers;
 
+import com.example.internet_banking.Entities.Beneficiaries;
 import com.example.internet_banking.Entities.NewUserDetails;
 import com.example.internet_banking.Entities.UserAccountInfo;
 import com.example.internet_banking.Repositories.NewUserRepo;
@@ -83,15 +84,57 @@ public class BankController {
             }
         }catch (Exception ex){
             ex.printStackTrace();
+            return "redirect:/newUserDetails";
         }
-        return "success";
     }
 
     @RequestMapping("/accountDetails")
     public String accountDetails(Model model){
-        HashMap<String,String> responseMap = new HashMap<>();
-        responseMap = bankService.fetchUserAccountDetails();
+        HashMap responseMap = bankService.fetchUserAccountDetails();
         model.addAttribute("accountDetails",responseMap);
         return "AccountDetails.html";
+    }
+
+    @RequestMapping("/userStatements")
+    public String userStatements(Model model){
+        try{
+            HashMap map = bankService.fetchUserTransactionHistory("abc");
+            if(map.get("status") == "success"){
+                model.addAttribute("statements",map.get("transactionList"));
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return "Statements.html";
+    }
+
+    @RequestMapping("/addBeneficiary")
+    public String addNewBeneficiary(Model model){
+        model.addAttribute("beneficiary", new Beneficiaries());
+        return "NewBeneficiary.html";
+    }
+
+    @RequestMapping("/beneficiaryList")
+    public String beneficiariesList(Model model){
+        model.addAttribute("beneficiariesList",bankService.fetchAllBeneficiaries("abc"));
+        return "BeneficiariesList.html";
+    }
+
+    @PostMapping("/saveNewBeneficiary")
+    public String saveNewBeneficiary(RedirectAttributes redirectAttributes, @RequestParam HashMap beneficiaryData){
+        HashMap map = new HashMap();
+        try{
+          map = bankService.addBeneficiary("abc", beneficiaryData);
+          if(map.get("status") == "success"){
+             redirectAttributes.addFlashAttribute("msg","Beneficiary Added Successfully");
+             return "redirect:/beneficiaryList";
+          }else{
+              redirectAttributes.addFlashAttribute("msg","Something went wrong !! Please try again");
+              return "redirect:/addBeneficiary";
+          }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return "redirect:/addBeneficiary";
+        }
     }
 }

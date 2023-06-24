@@ -94,11 +94,13 @@ public class BankService{
         return  responseMap;
     }
 
-    public HashMap<String ,String> fetchAllBeneficiaries(String userAccountNumber){
+    public HashMap fetchAllBeneficiaries(String userAccountNumber){
         List<Beneficiaries> beneficiaries = new ArrayList<>();
-        HashMap<String ,String> responseMap = new HashMap<>();
+        HashMap responseMap = new HashMap<>();
         try{
             UserAccountInfo userAccount = userAccountRepo.findByAccountNumber(userAccountNumber);
+            beneficiaries = beneficiaryRepo.fetchAllByUserAccount(userAccount);
+            responseMap.put("beneficiaries", beneficiaries);
             responseMap.put("status","success");
         }catch (Exception ex){
             responseMap.put("status","error");
