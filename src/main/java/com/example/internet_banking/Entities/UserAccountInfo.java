@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -13,6 +14,8 @@ import java.math.BigInteger;
 @Setter
 public class UserAccountInfo {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userAccountId;
     private String accountNo ;
     private String loginUserName ;
     private String password ;
@@ -25,4 +28,8 @@ public class UserAccountInfo {
     private String crnName ;
     private String currency ;
     private BigDecimal withdrawableBalance;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userAccounts")
+    private List<Beneficiaries> beneficiaries;
+    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "userTransactions")
+    private List<Transactions> transactions;
 }
