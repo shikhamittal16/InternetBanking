@@ -15,43 +15,57 @@
             background-color : #F7F7F7!important;
         }
         .btn{
-            float: right;
             margin-top: 30px;
-            margin-right: 100px;
             width: 120px;
             padding: 6px;
-            background-color: black;
             color: white;
             cursor: pointer;
         }
+        .container{
+            position: absolute;
+            top:20%;
+            left: 10%;
+         }
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script th:src="NewUserDetails.js"></script>
 </head>
 <body>
+<div th:if="${msg}" class="alert alert-success text-center">[[${msg}]]</div>
+<div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <form th:object="${userData}" action="#" th:action="@{/saveUserAccountDetails}" method="post">
-<div class="container" style="text-align: center">
+<div class="container" style="text-align: center;">
     <input type="hidden" name="userId" id="userId" th:value="${userData.userId}">
     <input type="hidden" name="accountNo" id="accountNo" th:value="${userData.accountNo}">
-    <div class="form-group">
-        <h2> Your Account Number Is :&nbsp;&nbsp;<span th:text="${userData.accountNo}"></span></h2>
+    <div class="card">
+        <div class="card-header bg-light" style="color: crimson">
+           <h3>Your Account Number Is :&nbsp;&nbsp;<span th:text="${userData.accountNo}"></span></h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
 
-        <label for="amount"> Enter Amount
-            <input type="text" class="form-control" id="Amount" name="depositBalance" th:value="${userData.amount}" required>
-        </label>
-    </div>
+                <label for="currency"> Currency
+                    <input type="text" class="form-control" id="currency" name="currency" th:value="${userData.currency}" required>
+                </label>
 
-    <div class="form-group">
-        <label for="loginUserName"> Enter Your User Id
-            <input type="text" class="form-control" id="loginUserName" name="loginUserName" th:value="${userData.loginId}" required>
-        </label>
+                <label for="amount"> Enter Amount
+                    <input type="text" class="form-control" id="Amount" name="depositBalance" th:value="${userData.amount}" required>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="loginUserName"> Enter Your User Id
+                    <input type="text" class="form-control" id="loginUserName" name="loginUserName" th:value="${userData.loginId}" required>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="password"> Enter Your Password
+                    <input type="password"  class="form-control" id="password" name="password" th:value="${userData.password}" required>
+                </label>
+            </div>
+            <button class="btn btn-success" type="submit">Submit</button>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="password"> Enter Your Password
-            <input type="password"  class="form-control" id="password" name="password" th:value="${userData.password}" required>
-        </label>
-    </div>
-    <button class="btn btn-success" type="submit">Submit</button>
 </div>
 </form>
 </body>

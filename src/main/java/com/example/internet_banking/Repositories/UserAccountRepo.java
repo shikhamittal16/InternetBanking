@@ -8,4 +8,7 @@ public interface UserAccountRepo extends CrudRepository<UserAccountInfo,Long> {
 
     @Query("SELECT u FROM UserAccountInfo u WHERE u.accountNo = :accountNo")
     UserAccountInfo findByAccountNumber(String accountNo);
+
+    @Query("SELECT u.transactionLimit FROM UserAccountInfo u WHERE u.accountNo =:accountNo")
+    String findTransactionLimitOfUser(String accountNo);
 }

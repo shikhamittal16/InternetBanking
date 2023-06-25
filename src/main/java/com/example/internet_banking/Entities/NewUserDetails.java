@@ -23,6 +23,7 @@ public class NewUserDetails implements Serializable {
     private String Address;
     private String City;
     private String State;
+    private String aadhar;
     private String PinCode;
     private String Religion;
     private String Category;

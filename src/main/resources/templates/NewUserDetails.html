@@ -14,175 +14,192 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
-        h2{
+        h5{
             text-align: center;
-            margin-bottom: 10px;
+            color: crimson;
         }
         #submitBtn{
-            float: right;
             margin-top: 20px;
-            margin-right: 100px;
             padding: 10px;
             cursor: pointer;
-        }
-        p{
-            background-color: gainsboro;
-            padding: 6px;
-            margin-top: 26px;
+            position: absolute;
+            left: 50%;
         }
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script th:src="NewUserDetails.js"></script>
 </head>
 <body>
-<div class="container">
-    <h2>New User Details</h2>
-    <form action="#" th:action="@{/saveNewUserDetails}" method="post" th:object="${userData}">
-    <p>Personal Information</p>
+<div th:if="${msg}" class="alert alert-success text-center">[[${msg}]]</div>
+<div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
+<div class="container" style="margin-top: 20px;">
+    <form th:action="@{/saveNewUserDetails}" method="post" th:object="${userData}">
 
-        <div class="form-group">
-            <label for="FullName"> Full Name
-                <input class="form-control" style="width: 15rem" type="text" id="FullName" th:field="*{FullName}" required>
-            </label>
-            <label for="dob"> Date of Birth
-                <input type="date" style="width: 15rem" th:field="*{DOB}" id="dob" class="form-control" required>
-            </label>
-            <label for="gender"> Gender
-                <select id="gender" style="width: 15rem" th:field="*{Gender}" class="form-control" required>
-                    <option value="" selected>Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-            </label>
+        <div class="card bg-light mb-3">
+        <div class="card-header">
+            <h5>Personal Information</h5>
+        </div>
+        <div class="card-body">
+
+            <div class="form-group">
+                <label for="FullName"> Full Name
+                    <input class="form-control" style="width: 15rem" type="text" id="FullName" th:field="*{FullName}" required>
+                </label>
+                <label for="dob"> Date of Birth
+                    <input type="date" style="width: 15rem" th:field="*{DOB}" id="dob" class="form-control" required>
+                </label>
+                <label for="gender"> Gender
+                    <select id="gender" style="width: 15rem" th:field="*{Gender}" class="form-control" required>
+                        <option value="" selected>Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="FatherName"> Father Name
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{FatherName}" id="FatherName">
+                </label>
+                <label for="MaritalStatus"> Marital Status
+                    <select id="MaritalStatus" style="width: 15rem" class="form-control" required th:field="*{MaritalStatus}">
+                        <option value="" selected>Select Marital Status</option>
+                        <option value="Married">Married</option>
+                        <option value="Unmarried">Unmarried</option>
+                        <option value="Divorced">Divorced</option>
+                        <option value="Separated">Separated</option>
+                    </select>
+                </label>
+                <label for="SpouseName"> Spouse Name
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{SpouseName}" id="SpouseName">
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="Phn"> Mobile No
+                    <input type="text"class="form-control" style="width: 15rem" id="Phn" maxlength="10" minlength="10" required>
+                </label>
+                <label for="AlternateMobileNo"> Alternate Mobile No
+                    <input type="text" class="form-control" style="width: 15rem" th:field="*{AlternateMobileNo}" id="AlternateMobileNo" maxlength="12" minlength="12">
+                </label>
+                <label for="email"> E-Mail Id
+                    <input type="email" class="form-control" style="width: 15rem" th:field="*{emailId}" id="email">
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="aadhar"> Aadhar No
+                    <input type="text" style="width: 15rem" class="form-control" id="aadhar" th:field="*{aadhar}" maxlength="12" minlength="12" required>
+                </label>
+                <label for="pan"> PAN Card No
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{PanCardNumber}" id="pan"  maxlength="10" minlength="10">
+                </label>
+                <label for="voterId"> Voter ID
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{voterId}" id="voterId">
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="address"> Address
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{Address}" id="address" required >
+                </label>
+                <label for="city"> City
+                    <input type="text" style="width: 15rem" class="form-control"  th:field="*{City}" id="city" required>
+                </label>
+                <label for="state"> State
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{State}" id="state"  required>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="PinCode"> PinCode
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{PinCode}" id="PinCode"  required>
+                </label>
+                <label for="qualification"> Qualification
+                    <input type="text" style="width: 15rem" class="form-control"  th:field="*{Qualification}" id="qualification">
+                </label>
+                <label for="Occupation"> Occupation
+                    <input type="text" style="width: 15rem" class="form-control" th:field="*{Occupation}" id="Occupation">
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="Religion"> Religion
+                    <select id="Religion" th:field="*{Religion}" style="width: 15rem" class="form-control" required>
+                        <option value="" style="font-size: small" selected>Select Religion</option>
+                        <option value="Hindu" style="font-size: small" >Hindu</option>
+                        <option value="Muslim" style="font-size: small" >Muslim</option>
+                        <option value="Sikh" style="font-size: small" >Sikh</option>
+                        <option value="Christian" style="font-size: small" >Christian</option>
+                    </select>
+                </label>
+                <label for="Category"> Category
+                    <select id="Category" style="width: 15rem" th:field="*{Category}" class="form-control" required>
+                        <option value="" style="font-size: small" selected>Select Category</option>
+                        <option value="General" style="font-size: small" >General</option>
+                        <option value="OBC" style="font-size: small" >OBC</option>
+                        <option value="SC" style="font-size: small" >SC</option>
+                        <option value="ST" style="font-size: small" >ST</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </div>
+
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                <h5>Account Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="AccountType"> Account Type
+                        <select id="AccountType" class="form-control" style="width: 15rem" th:field="*{AccountType}" required>
+                            <option value="" style="font-size: small" selected>Select Account</option>
+                            <option value="CurrentAccount" style="font-size: small" >Current Account</option>
+                            <option value="SavingAccount" style="font-size: small" >Saving Account</option>
+                            <option value="FixedDepositAccount" style="font-size: small" >Fixed Deposit Account</option>
+                            <option value="RecurringDepositAccount" style="font-size: small" >Recurring Deposit Account</option>
+                        </select>
+                    </label>
+                    <label for="BankName"> Bank Name
+                        <input type="text" style="width: 15rem" class="form-control" th:field="*{BankName}" id="BankName" required>
+                    </label>
+                    <label for="IFSC"> IFSC Code
+                        <input type="text" style="width: 15rem" class="form-control" th:field="*{IFSC}" id="IFSC" required>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="BankBranch"> Bank Branch
+                        <input type="text" class="form-control" style="width: 15rem" th:field="*{BankBranch}" id="BankBranch" required>
+                    </label>
+                    <label for="District"> District
+                        <input type="text" class="form-control" style="width: 15rem" th:field="*{District}" id="District" required>
+                    </label>
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="FatherName"> Father Name
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{FatherName}" id="FatherName">
-            </label>
-            <label for="MaritalStatus"> Marital Status
-                <select id="MaritalStatus" style="width: 15rem" class="form-control" required th:field="*{MaritalStatus}">
-                    <option value="" selected>Select Marital Status</option>
-                    <option value="Married">Married</option>
-                    <option value="Unmarried">Unmarried</option>
-                    <option value="Divorced">Divorced</option>
-                    <option value="Separated">Separated</option>
-                </select>
-            </label>
-            <label for="SpouseName"> Spouse Name
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{SpouseName}" id="SpouseName">
-            </label>
+        <div class="card bg-light mb-3">
+        <div class="card-header">
+            <h5>Nominee Details</h5>
         </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="NomineeName"> Nominee Name
+                    <input type="text" class="form-control" style="width: 15rem" th:field="*{NomineeName}" id="NomineeName">
+                </label>
+                <label for="NomineeRelation"> Nominee Relation
+                    <input type="text" class="form-control" style="width: 15rem" th:field="*{NomineeRelation}" id="NomineeRelation">
+                </label>
+                <label for="NomineeDOB"> Nominee DOB
+                    <input type="date" style="width: 15rem" th:field="*{NomineeDOB}" id="NomineeDOB" class="form-control">
+                </label>
+            </div>
+        </div>
+    </div>
 
-        <div class="form-group">
-            <label for="Phn"> Mobile No
-                <input type="text"class="form-control" style="width: 15rem" id="Phn" maxlength="10" minlength="10" required>
-            </label>
-            <label for="AlternateMobileNo"> Alternate Mobile No
-                <input type="text" class="form-control" style="width: 15rem" th:field="*{AlternateMobileNo}" id="AlternateMobileNo" maxlength="12" minlength="12">
-            </label>
-            <label for="email"> E-Mail Id
-                <input type="email" class="form-control" style="width: 15rem" th:field="*{EmailId}" id="email">
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="aadhar"> Aadhar No
-                <input type="text" style="width: 15rem" class="form-control" id="aadhar" maxlength="12" minlength="12" required>
-            </label>
-            <label for="pan"> PAN Card No
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{PanCardNumber}" id="pan"  maxlength="10" minlength="10">
-            </label>
-            <label for="voterId"> Voter ID
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{voterId}" id="voterId">
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="address"> Address
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{Address}" id="address" required >
-            </label>
-            <label for="city"> City
-                <input type="text" style="width: 15rem" class="form-control"  th:field="*{City}" id="city" required>
-            </label>
-            <label for="state"> State
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{State}" id="state"  required>
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="PinCode"> PinCode
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{PinCode}" id="PinCode"  required>
-            </label>
-            <label for="qualification"> Qualification
-                <input type="text" style="width: 15rem" class="form-control"  th:field="*{Qualification}" id="qualification">
-            </label>
-            <label for="Occupation"> Occupation
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{Occupation}" id="Occupation">
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="Religion"> Religion
-                <select id="Religion" style="width: 15rem" class="form-control" required>
-                    <option value="" style="font-size: small" selected>Select Religion</option>
-                    <option value="Hindu" style="font-size: small" >Hindu</option>
-                    <option value="Muslim" style="font-size: small" >Muslim</option>
-                    <option value="Sikh" style="font-size: small" >Sikh</option>
-                    <option value="Christian" style="font-size: small" >Christian</option>
-                </select>
-            </label>
-            <label for="Category"> Category
-                <select id="Category" style="width: 15rem" class="form-control" required>
-                    <option value="" style="font-size: small" selected>Select Category</option>
-                    <option value="General" style="font-size: small" >General</option>
-                    <option value="OBC" style="font-size: small" >OBC</option>
-                    <option value="SC" style="font-size: small" >SC</option>
-                    <option value="ST" style="font-size: small" >ST</option>
-                </select>
-            </label>
-        </div>
-
-        <p>Nominee Details</p>
-        <div class="form-group">
-            <label for="NomineeName"> Nominee Name
-                <input type="text" class="form-control" style="width: 15rem" th:field="*{NomineeName}" id="NomineeName">
-            </label>
-            <label for="NomineeRelation"> Nominee Relation
-                <input type="text" class="form-control" style="width: 15rem" th:field="*{NomineeRelation}" id="NomineeRelation">
-            </label>
-            <label for="NomineeDOB"> Nominee DOB
-                <input type="text" class="form-control" style="width: 15rem" th:field="*{NomineeDOB}" id="NomineeDOB">
-            </label>
-        </div>
-        <p>Account Information</p>
-        <div class="form-group">
-            <label for="AccountType"> Account Type
-                <select id="AccountType" class="form-control" style="width: 15rem" required>
-                    <option value="" style="font-size: small" selected>Select Account</option>
-                    <option value="Current Account" style="font-size: small" >Current Account</option>
-                    <option value="Saving Account" style="font-size: small" >Saving Account</option>
-                    <option value="Fixed Deposit Account" style="font-size: small" >Fixed Deposit Account</option>
-                    <option value="Recurring Deposit Accountn" style="font-size: small" >Recurring Deposit Account</option>
-                </select>
-            </label>
-            <label for="BankName"> Bank Name
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{BankName}" id="BankName" required>
-            </label>
-            <label for="IFSC"> IFSC Code
-                <input type="text" style="width: 15rem" class="form-control" th:field="*{IFSC}" id="IFSC" required>
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label for="BankBranch"> Bank Branch
-                <input type="text" class="form-control" style="width: 15rem" th:field="*{BankBranch}" id="BankBranch" required>
-            </label>
-            <label for="District"> District
-                <input type="text" class="form-control" style="width: 15rem" th:field="*{District}" id="District" required>
-            </label>
-        </div>
         <button class="btn btn-success" type="submit" id="submitBtn">Submit</button>
     </form>
 </div>

@@ -13,6 +13,8 @@
     </style>
 </head>
 <body>
+<div th:if="${msg}" class="alert alert-success text-center">[[${msg}]]</div>
+<div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <div class="container" style="text-align: center">
   <div class="card">
     <div class="card-header" style="color: crimson">ADD NEW BENEFICIARY</div>
@@ -20,13 +22,13 @@
         <form action="#" th:action="@{/saveNewBeneficiary}" method="post">
           <div class="form-group">
             <label for="beneficiaryName"> Beneficiary Name
-              <input class="form-control" style="width: 20rem" type="text" id="beneficiaryName" name="beneficiaryName" th:field="*{beneficiaryName}" required>
+              <input class="form-control" style="width: 20rem" type="text" id="beneficiaryName" name="beneficiaryName" th:field="*{beneficiary.beneficiaryName}" required>
             </label>
             </div>
 
           <div class="form-group">
             <label for="beneficiaryAccount"> Beneficiary Account Number
-              <input class="form-control" style="width: 20rem" type="text" id="beneficiaryAccount" name="beneficiaryAccount" th:field="*{beneficiaryAccount}" required>
+              <input class="form-control" style="width: 20rem" type="text" id="beneficiaryAccount" name="beneficiaryAccount" th:field="*{beneficiary.beneficiaryAccountNo}" required>
             </label>
           </div>
 

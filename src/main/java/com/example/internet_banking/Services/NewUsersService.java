@@ -22,15 +22,17 @@ public class NewUsersService {
 
     public HashMap<String ,String > saveUserPersonalDetails(NewUserDetails newUserDetails){
         HashMap<String , String> responseMap = new HashMap<>();
+        Random random = new Random();
         try{
             NewUserDetails details = userDetailsRepo.save(newUserDetails);
             responseMap.put("status","success");
             responseMap.put("userId",details.getId().toString());
-            String accountNo = details.getBankName().substring(0,3)+details.getPanCardNumber().substring(0,4)+details.getDOB().substring(8,10);
+            String accountNo = (random.nextInt(900000) + 100000 )+ details.getAadhar().substring(0,5);
             responseMap.put("accountNo",accountNo);
             responseMap.put("amount","");
             responseMap.put("loginId","");
             responseMap.put("password","");
+            responseMap.put("currency","");
         }catch (Exception ex){
             ex.printStackTrace();
             responseMap.put("status","error");
@@ -41,6 +43,7 @@ public class NewUsersService {
     public HashMap<String, String > saveUserAccountInformation(Map<String ,String > userAccountInfo){
         HashMap<String , String> responseMap = new HashMap<>();
         UserAccountInfo accountInfo = new UserAccountInfo();
+        Random random = new Random();
         try{
             Optional<NewUserDetails> userDetailsOpt = userDetailsRepo.findById(Long.parseLong(userAccountInfo.get("userId")));
             NewUserDetails userDetails = userDetailsOpt.orElse(null);
@@ -49,7 +52,11 @@ public class NewUsersService {
             accountInfo.setPassword(userAccountInfo.get("password"));
             accountInfo.setLoginUserName(userAccountInfo.get("loginUserName"));
             accountInfo.setDepositBalance(new BigDecimal(userAccountInfo.get("depositBalance")));
+            accountInfo.setCurrency(userAccountInfo.get("currency"));
+            accountInfo.setWithdrawableBalance(new BigDecimal(userAccountInfo.get("depositBalance")));
             accountInfo.setCrnName(userDetails.getFullName());
+            accountInfo.setCrnNumber(random.nextInt(90000) + 10000 + userDetails.getAadhar().substring(4,7));
+            accountInfo.setTransactionLimit(BigDecimal.valueOf(5000));
             userAccountRepo.save(accountInfo);
             userDetails.setAccountInfo(accountInfo);
             userDetailsRepo.save(userDetails);

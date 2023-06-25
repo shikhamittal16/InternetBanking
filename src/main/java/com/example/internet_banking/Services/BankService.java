@@ -30,16 +30,22 @@ public class BankService{
     public HashMap<String , String> fetchUserAccountDetails(){
         HashMap<String,String> map = new HashMap<>();
         try{
-            UserAccountInfo account = userAccountRepo.findByAccountNumber("sndd28302");
-            map.put("depositBalance",account.getDepositBalance().toString());
-            map.put("crnId",account.getCrnNumber());
-            map.put("crnName",account.getCrnName());
-            map.put("currency",account.getCurrency());
-            map.put("custName",account.getUserDetails().getFullName());
-            map.put("accountNo","sndd28302");
-            map.put("accountType",account.getUserDetails().getAccountType());
-            map.put("withdrawableBalance",account.getWithdrawableBalance()!=null ? account.getWithdrawableBalance().toString() : "");
-            map.put("status","success");
+            UserAccountInfo account = userAccountRepo.findByAccountNumber("23917579341");
+            if(account != null){
+                map.put("depositBalance",account.getDepositBalance().toString());
+                map.put("crnId",account.getCrnNumber());
+                map.put("crnName",account.getCrnName());
+                map.put("currency",account.getCurrency());
+                map.put("custName",account.getUserDetails().getFullName());
+                map.put("accountNo",account.getAccountNo());
+                map.put("crnNo",account.getCrnNumber());
+                map.put("accountType",account.getUserDetails().getAccountType());
+                map.put("withdrawableBalance",account.getWithdrawableBalance()!=null ? account.getWithdrawableBalance().toString() : "");
+                map.put("status","success");
+            }
+            else{
+                map.put("status","Account Not Found");
+            }
         }catch(Exception ex){
             map.put("status","error");
             ex.printStackTrace();
@@ -103,6 +109,20 @@ public class BankService{
             responseMap.put("beneficiaries", beneficiaries);
             responseMap.put("status","success");
         }catch (Exception ex){
+            responseMap.put("status","error");
+            ex.printStackTrace();
+        }
+        return responseMap;
+    }
+
+    public HashMap updateTransactionLimit( HashMap<String,String> transactionLimitMap, String accountNo){
+        HashMap responseMap = new HashMap();
+        try{
+            UserAccountInfo userAccount = userAccountRepo.findByAccountNumber(accountNo);
+            userAccount.setTransactionLimit(new BigDecimal(transactionLimitMap.get("transactionLimit")));
+            userAccountRepo.save(userAccount);
+            responseMap.put("status","success");
+        }catch(Exception ex){
             responseMap.put("status","error");
             ex.printStackTrace();
         }
