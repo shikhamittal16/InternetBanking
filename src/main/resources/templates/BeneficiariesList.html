@@ -7,12 +7,15 @@
   <style>
     .container{
       position: absolute;
-      top:20%;
+      top:10%;
       left: 10%;
     }
   </style>
 </head>
 <body>
+<script>
+
+</script>
 <div th:if="${msg}" class="alert alert-success text-center">[[${msg}]]</div>
 <div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <div class="container" style="text-align: center">
@@ -24,17 +27,23 @@
         <tr>
           <th scope="col">Beneficiary Name </th>
           <th scope="col">Beneficiary Account No.</th>
-          <th scope="col">Select</th>
+          <th scope="col">Amount</th>
+          <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
+        <form action="#" th:action="@{/transferMoney}" method="post">
         <th:block th:each="list : ${beneficiariesList.beneficiaries}">
           <tr>
             <td th:text="${list.beneficiaryName}"></td>
             <td th:text="${list.beneficiaryAccountNo}"></td>
-            <td><input type="checkbox" id="selectBeneficiary"></td>
+            <td>
+              <input type="text" id="sendToBeneficiary" th:name="'beneficiary-' + ${list.beneficiaryId}" class="form-control">
+            </td>
+            <td><button type="submit" class="btn btn-warning">Send</button> </td>
           </tr>
         </th:block>
+        </form>
         </tbody>
       </table>
     </div>

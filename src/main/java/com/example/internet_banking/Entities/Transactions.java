@@ -24,5 +24,6 @@ public class Transactions {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userAccountId")
     private UserAccountInfo userTransactions;
+    private String transactionType;
 
 }

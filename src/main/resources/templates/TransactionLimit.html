@@ -25,7 +25,7 @@
       <form action="#" th:action="@{/updateTransactionLimit}" method="post">
         <p>Your current Transaction Limit is &nbsp; <span style="color: green; font-style: italic" th:text="${transactionLimit}"></span></p>
         <p>You can change your transaction limit by entering the limit here</p>
-        <input type="text" class="form-control" style="width: 20rem;margin-left: 23rem" id="transactionLimit" name="transactionLimit" th:value="*{transactionLimit}">
+        <input type="text" class="form-control" style="width: 20rem;margin-left: 23rem" id="transLimit" name="transactionLimit" th:value="*{transLimit}">
         <footer><button type="submit" class="btn btn-success" style="margin-top: 15px">Submit</button></footer>
       </form>
     </div>

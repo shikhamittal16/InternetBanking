@@ -29,7 +29,15 @@
         </tr>
         </thead>
         <tbody>
-
+        <th:block th:each="list : ${statements}">
+          <tr>
+            <td th:text="${list.transDescription}"></td>
+            <td th:text="${list.transactionId}"></td>
+            <td th:text="${list.transactionAmount}"
+                th:style="${list.transactionType == 'withdrawal' ? 'color: red' : 'color: green'}"/>
+            <td th:text="${list.userTransactions.depositBalance}"></td>
+          </tr>
+        </th:block>
         </tbody>
       </table>
     </div>

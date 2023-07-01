@@ -71,13 +71,15 @@ public class BankService{
         }
         return responseMap;
     }
-    public HashMap<String,List> fetchUserTransactionHistory(String userAccountNumber){
-       HashMap<String,List> responseMap = new HashMap<>();
+    public HashMap fetchUserTransactionHistory(String userAccountNumber){
+       HashMap responseMap = new HashMap();
        try{
            UserAccountInfo userAccount = userAccountRepo.findByAccountNumber(userAccountNumber);
            List<Transactions> transactionsList = transRepo.findAllTransactionsByUserAccount(userAccount);
            responseMap.put("transactionList",transactionsList);
+           responseMap.put("status","success");
        }catch(Exception ex){
+           responseMap.put("status","error");
            ex.printStackTrace();
        }
        return responseMap;
@@ -127,5 +129,81 @@ public class BankService{
             ex.printStackTrace();
         }
         return responseMap;
+    }
+
+    public HashMap donateToPMCareFund(HashMap<String,String> donationMoney , String accountNo){
+        HashMap respMap = new HashMap();
+        try{
+             BigDecimal currentAmt = userAccountRepo.findDepositAmountOfUser(accountNo);
+             BigDecimal donationAmt = new BigDecimal(donationMoney.get("donationAmount"));
+             if(currentAmt.compareTo(donationAmt) < 0){
+                 respMap.put("status","amountError");
+             } else{
+                UserAccountInfo userAccountInfo = userAccountRepo.findByAccountNumber(accountNo);
+                userAccountInfo.setDepositBalance(currentAmt.subtract(donationAmt));
+                userAccountRepo.save(userAccountInfo);
+                setTransactionDetailsOfUser("withdrawal",userAccountInfo, donationAmt, "Donate to PM-Cares Fund");
+                respMap.put("status","success");
+             }
+        }catch(Exception ex){
+            respMap.put("status","error");
+            ex.printStackTrace();
+        }
+        return respMap;
+    }
+
+    public HashMap transferMoney(HashMap transferMoney , String accountNo){
+        HashMap responseMap = new HashMap();
+        try{
+            UserAccountInfo userAccountInfo = userAccountRepo.findByAccountNumber(accountNo);
+            List<Beneficiaries> beneficiaries = beneficiaryRepo.fetchAllByUserAccount(userAccountInfo);
+            for(int i=0 ; i<beneficiaries.size() ; i++){
+                Long beneficiaryId = beneficiaries.get(i).getBeneficiaryId();
+                if(transferMoney.containsKey("beneficiary-"+beneficiaryId) &&
+                        transferMoney.get("beneficiary-"+beneficiaryId) != null &&
+                        transferMoney.get("beneficiary-"+beneficiaryId) != ""){
+                    BigDecimal transferAmt = new BigDecimal(transferMoney.get("beneficiary-"+beneficiaryId).toString());
+                    if(transferAmt.compareTo(userAccountInfo.getDepositBalance())>0){
+                        responseMap.put("status","amountError");
+                    } else if(transferAmt.compareTo(userAccountInfo.getTransactionLimit())>0){
+                        responseMap.put("status","limitError");
+                    } else {
+                        UserAccountInfo beneficiaryAcc = userAccountRepo.findByAccountNumber(beneficiaries.get(i).getBeneficiaryAccountNo());
+                        if(beneficiaryAcc != null){
+                            beneficiaryAcc.setDepositBalance(
+                                    beneficiaryAcc.getDepositBalance().add
+                                            (transferAmt));
+                            userAccountRepo.save(beneficiaryAcc);
+                            setTransactionDetailsOfUser("deposit",beneficiaryAcc,transferAmt,userAccountInfo.getUserDetails().getFullName());
+                        }
+                        userAccountInfo.setDepositBalance(userAccountInfo.getDepositBalance().
+                                subtract(transferAmt));
+                        userAccountInfo.setWithdrawableBalance(userAccountInfo.getWithdrawableBalance().
+                                subtract(transferAmt));
+                        userAccountRepo.save(userAccountInfo);
+                        setTransactionDetailsOfUser("withdrawal",userAccountInfo,transferAmt,beneficiaryAcc.getUserDetails().getFullName());
+                        responseMap.put("status","success");
+                    }
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            responseMap.put("status","error");
+        }
+        return responseMap;
+    }
+
+    public void setTransactionDetailsOfUser(String transactionType , UserAccountInfo user , BigDecimal amount , String transDesc){
+        try{
+            Transactions transactions = new Transactions();
+            transactions.setTransDescription(transDesc);
+            transactions.setTransactionAmount(amount);
+            transactions.setUserTransactions(user);
+            transactions.setTransactionDate(new Date());
+            transactions.setTransactionType(transactionType);
+            transRepo.save(transactions);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

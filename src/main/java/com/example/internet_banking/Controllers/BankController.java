@@ -20,6 +20,7 @@ import java.util.Optional;
 
 //th:field = isse agar hum direct object m value pass kra rhe hai to jb use krenege like saveNewUserDetails m
 //th:value = jb hum @requestParam use kr rhe hai to hashmap m value ayegi
+//name is sending as a key in map from view to backend
 @Controller
 public class BankController {
     @Autowired
@@ -105,6 +106,8 @@ public class BankController {
             HashMap map = bankService.fetchUserTransactionHistory("23917579341");
             if (map.get("status") == "success") {
                 model.addAttribute("statements", map.get("transactionList"));
+            }else{
+                model.addAttribute("msg2","Something went wrong while fetching the statements . Please Try Again");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -166,5 +169,50 @@ public class BankController {
             ex.printStackTrace();
             return "redirect:/home";
         }
+    }
+
+    @RequestMapping("/donateMoney")
+    public String donateMoney(Model model){
+
+        model.addAttribute("currentBalance", userAccountRepo.findDepositAmountOfUser("23917579341"));
+        return "DonateMoney.html";
+
+    }
+
+    @PostMapping("/sendDonation")
+    public String donateToPMCareFund(@RequestParam HashMap<String,String> donationAmount, RedirectAttributes ra){
+        try{
+            HashMap responseMap = bankService.donateToPMCareFund(donationAmount,"23917579341");
+            if(responseMap.get("status") == "success"){
+                ra.addFlashAttribute("msg","Thank You For Your Contribution");
+            } else if(responseMap.get("status") == "amountError"){
+                ra.addFlashAttribute("msg2","Your current account doesn't have enough money to donate");
+            }else{
+                ra.addFlashAttribute("msg2","Something went wrong !! Please try again");
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return "redirect:/donateMoney";
+    }
+
+    @PostMapping("/transferMoney")
+    public String transferMoney(@RequestParam HashMap transferMoney, RedirectAttributes ra){
+        try{
+            HashMap responseMap = bankService.transferMoney(transferMoney, "23917579341");
+            if(responseMap.get("status") == "success"){
+                ra.addFlashAttribute("msg","Transaction Successful");
+            }else if(responseMap.get("status") == "amountError"){
+                ra.addFlashAttribute("msg2","Your current account doesn't have enough money to transfer");
+            }else if(responseMap.get("status") == "limitError"){
+                ra.addFlashAttribute("msg2","Please upgrade your transaction Limit");
+            }else{
+                ra.addFlashAttribute("msg2","Something went wrong !! Please try again.");
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            ra.addFlashAttribute("msg2","Something went wrong !! Please try again.");
+        }
+        return "redirect:/beneficiaryList";
     }
 }
