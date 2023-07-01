@@ -3,14 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Account Details</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         .box {
             flex: 1;
             margin-right: 10px;
         }
-        .container{
-            margin-top:40px;
+
+        .container {
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: 0.3s;
+        }
+
+        .card-header {
+            background-color: #dc3545;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #425d66;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .container-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .box {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .box-title {
+            color: darkslategrey;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .box-value {
+            font-size: 1.2rem;
+            color: #999999;
+        }
+
+        .offer-card {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
@@ -18,124 +97,99 @@
 <div th:if="${msg}" class="alert alert-success text-center">[[${msg}]]</div>
 <div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <div class="container">
-    <div class="card bg-light mb-3">
-        <div class="card-header">Banking Account</div>
-        <div class="card-body">
-            <h5 class="card-title" style="color: crimson"><span th:text="${accountDetails.currency+' '+accountDetails.depositBalance}"></span></h5>
-            <p class="card-text">Combined Available Balance</p>
-            <div class="container" style="display: flex">
-                <div class="box">CRN Name &nbsp&nbsp;<span style="color:darkslategrey;font-style: italic;" th:text="${accountDetails.custName}"></span></div>
-                <div class="box">CRN # &nbsp; &nbsp;<span style="color: darkslategrey;font-style: italic;" th:text="${accountDetails.crnNo}"></span></div>
-                <div class="box">Currency &nbsp&nbsp;<span style="color: darkslategrey;font-style: italic;" th:text="${accountDetails.currency}"></span></div>
-            </div>
+    <div class="card">
+        <div class="card-header" data-bs-toggle="collapse" data-bs-target="#banking-account">
+            Banking Account
         </div>
-    </div>
-
-    <div class="card bg-light mb-3" style="margin-top: 40px">
-        <div class="card-header">Savings / Current Account</div>
-        <div class="card-body">
-            <h5 class="card-text" style="color: crimson">Savings / Current Account Summary</h5>
-            <div style="display: flex">
+        <div class="card-body collapse show" id="banking-account">
+            <h5 class="card-title"><span th:text="${accountDetails.currency+' '+accountDetails.depositBalance}"></span></h5>
+            <div class="container-box">
                 <div class="box">
-                    <div style="margin-top: 10px">
-                        Account Name
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.custName}"></span>
-                    </div>
+                    <div class="box-title">CRN Name</div>
+                    <div class="box-value" th:text="${accountDetails.custName}"></div>
                 </div>
                 <div class="box">
-                    <div style="margin-top: 10px;">
-                       Account #
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.accountNo}"></span>
-                    </div>
+                    <div class="box-title">CRN #</div>
+                    <div class="box-value" th:text="${accountDetails.crnNo}"></div>
                 </div>
                 <div class="box">
-                    <div style="margin-top: 10px;">
-                        Account Type
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                       <span th:text="${accountDetails.accountType}"></span>
-                    </div>
-                </div>
-                <div class="box">
-                    <div style="margin-top: 10px;">
-                        Balance
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.depositBalance}"></span>
-                    </div>
-                </div>
-                <div class="box">
-                    <div style="margin-top: 10px">
-                        Withdrawable
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.withdrawableBalance}"></span>
-                    </div>
+                    <div class="box-title">Currency</div>
+                    <div class="box-value" th:text="${accountDetails.currency}"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="card bg-light mb-3" style="margin-top: 40px">
-        <div class="card-header">Fixed and Recurring Deposit</div>
-        <div class="card-body">
-            <h5 class="card-text" style="color: crimson">Fixed and Recurring Deposit Summary</h5>
-            <div style="display: flex">
+    <div class="card" style="margin-top: 40px">
+        <div class="card-header" data-bs-toggle="collapse" data-bs-target="#savings-account">
+            Savings / Current Account Summary
+        </div>
+        <div class="card-body collapse" id="savings-account">
+            <div class="container-box">
                 <div class="box">
-                    <div style="margin-top: 10px">
-                        Account Name
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.custName}"></span>
-                    </div>
+                    <div class="box-title">Account Name</div>
+                    <div class="box-value"  th:text="${accountDetails.custName}"></div>
                 </div>
                 <div class="box">
-                    <div style="margin-top: 10px;">
-                        Account #
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.accountNo}"></span>
-                    </div>
+                    <div class="box-title">Account #</div>
+                    <div class="box-value"th:text="${accountDetails.accountNo}"></div>
                 </div>
                 <div class="box">
-                    <div style="margin-top: 10px;">
-                        Account Type
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.accountType}"></span>
-                    </div>
+                    <div class="box-title">Account Type</div>
+                    <div class="box-value" th:text="${accountDetails.accountType}"></div>
                 </div>
                 <div class="box">
-                    <div style="margin-top: 10px;">
-                        Balance
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.depositBalance}"></span>
-                    </div>
+                    <div class="box-title">Balance</div>
+                    <div class="box-value" th:text="${accountDetails.depositBalance}"></div>
                 </div>
                 <div class="box">
-                    <div style="margin-top: 10px">
-                        Withdrawable
-                    </div>
-                    <div style="font-style: italic;color: darkslategrey">
-                        <span th:text="${accountDetails.withdrawableBalance}"></span>
-                    </div>
+                    <div class="box-title">Withdrawable</div>
+                    <div class="box-value"  th:text="${accountDetails.withdrawableBalance}"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="card bg-light mb-3" style="margin-top: 40px">
-        <div class="card-header">Offer Zone</div>
-        <div class="card-body text-dark">
-            <h5 class="card-title" style="color: crimson">Current Offers</h5>
-            <p class="card-text">Offers will be coming soon .</p>
+    <div class="card" style="margin-top: 40px">
+        <div class="card-header" data-bs-toggle="collapse" data-bs-target="#fixed-deposit">
+            Fixed and Recurring Deposit Summary
+        </div>
+        <div class="card-body collapse" id="fixed-deposit">
+            <div class="container-box">
+                <div class="box">
+                    <div class="box-title">Account Name</div>
+                    <div class="box-value" th:text="${accountDetails.custName}"></div>
+                </div>
+                <div class="box">
+                    <div class="box-title">Account #</div>
+                    <div class="box-value" th:text="${accountDetails.accountNo}"></div>
+                </div>
+                <div class="box">
+                    <div class="box-title">Account Type</div>
+                    <div class="box-value" th:text="${accountDetails.accountType}"></div>
+                </div>
+                <div class="box">
+                    <div class="box-title">Balance</div>
+                    <div class="box-value" th:text="${accountDetails.depositBalance}"></div>
+                </div>
+                <div class="box">
+                    <div class="box-title">Withdrawable</div>
+                    <div class="box-value"  th:text="${accountDetails.withdrawableBalance}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="offer-card" style="margin-top: 40px">
+        <div class="card-header" data-bs-toggle="collapse" data-bs-target="#offer-zone">
+            Offer Zone
+        </div>
+        <div class="card-body text-dark collapse" id="offer-zone">
+            <h5 class="box-title">Current Offers</h5>
+            <p class="box-value">Offers will be coming soon.</p>
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -215,4 +215,9 @@ public class BankController {
         }
         return "redirect:/beneficiaryList";
     }
+
+    @RequestMapping("/recharge")
+    public String rechargeAndPay(){
+        return "Recharge.html";
+    }
 }

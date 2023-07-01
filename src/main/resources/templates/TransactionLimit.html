@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TransactionLimit</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <title>TransactionLimit</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
   <style>
-    .container{
+    .container {
       position: absolute;
       top: 20%;
-      text-align: center;
-      left: 9%;
+      left: 10%;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 70%);
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 14px 28px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
@@ -18,14 +31,16 @@
 <div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <div class="container">
   <div class="card">
-    <div class="card-header" style="color: crimson">
+    <div class="card-header" style="background-color: #dc3545; color: #fff;">
       Set Your Transaction Limit
     </div>
     <div class="card-body">
       <form action="#" th:action="@{/updateTransactionLimit}" method="post">
-        <p>Your current Transaction Limit is &nbsp; <span style="color: green; font-style: italic" th:text="${transactionLimit}"></span></p>
+        <p>Your current Transaction Limit is &nbsp; <span style="color: green; font-style: italic"
+                                                          th:text="${transactionLimit}"></span></p>
         <p>You can change your transaction limit by entering the limit here</p>
-        <input type="text" class="form-control" style="width: 20rem;margin-left: 23rem" id="transLimit" name="transactionLimit" th:value="*{transLimit}">
+        <input type="text" class="form-control" style="width: 20rem; margin-left: 23rem" id="transLimit"
+               name="transactionLimit" th:value="*{transLimit}">
         <footer><button type="submit" class="btn btn-success" style="margin-top: 15px">Submit</button></footer>
       </form>
     </div>

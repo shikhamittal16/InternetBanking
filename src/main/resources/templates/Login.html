@@ -1,70 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<script th:src="CommonJS.js"></script>
 <head>
     <meta charset="UTF-8">
-    <title>LoGin To YouR Account</title>
+    <title>Login To Your Account</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body{
-            background-image: url("https://image.freepik.com/free-vector/banking-business-banner-finance-savings-abstract-silhouette-city-background_48369-11856.jpg");
+        body {
+            background-image: url("https://img.freepik.com/premium-vector/elegant-geometric-blue-gray-business-abstract-background_573652-133.jpg");
+            background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            background-position: center;
         }
-        .login{
-            text-align: center;
-            margin-top: 250px;
+
+        .login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        input{
-            background-color: transparent;
-            border-left: none;
-            border-right: none;
-            border-top: none;
+
+        .card {
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            color: crimson;
             text-align: center;
-            width: 300px;
-            color: black;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .form-control {
+            border: none;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
             font-size: larger;
-            font-weight: bolder;
+            transition: border-color 0.3s ease-in-out;
         }
+
+        .form-control:focus {
+            border-color: #dc3545;
+        }
+
         .submit {
-            width: 250px;
-            background-color: black;
+            background-color: #dc3545;
             color: white;
-            padding: 3px;
+            padding: 8px;
             cursor: pointer;
-        }
-        .btn{
+            width: 100%;
             margin-top: 20px;
-            width: 250px;
-            background-color: black;
-            color: white;
-            padding: 3px;
-            cursor: pointer;
         }
-        .box{
-            margin-bottom: 50px;
+
+        .btn {
+            background-color: transparent;
+            color: #dc3545;
+            padding: 8px;
+            cursor: pointer;
+            width: 100%;
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #dc3545;
+            color: white;
         }
     </style>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        function newUserDetails(){
+        function newUserDetails() {
             window.location.href = "newUserDetails";
         }
 
-        function login(){
+        function login() {
             var login = $('#loginId').val();
             var password = $('#password').val();
             var obj = {
-                loginId : login,
-                password : password
+                loginId: login,
+                password: password
             }
             $.ajax({
-                url : "login",
-                type : "GET",
-                data : obj ,
-                success : function (data){
+                url: "login",
+                type: "GET",
+                data: obj,
+                success: function (data) {
 
                 }
             })
@@ -75,14 +98,25 @@
 <div th:if="${msg}" class="alert alert-success text-center">[[${msg}]]</div>
 <div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <div class="login">
-        <div class="box">
-            <input type="text" name="loginId" id="loginId" placeholder="Enter LoGin Id" required>
+    <div class="card">
+        <div class="card-header">
+            <h4>Login To Your Account</h4>
         </div>
-        <div class="box">
-            <input type="password" name="password" id="password" placeholder="Enter Password" required>
+        <div class="card-body">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="loginId" id="loginId" placeholder="Enter Login Id" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
+            </div>
+            <div class="mb-3">
+                <button class="submit btn" onclick="login()">Login</button>
+            </div>
+            <div class="mb-3">
+                <button class="btn" onclick="newUserDetails()">New User Account</button>
+            </div>
         </div>
-        <button class="submit" onclick="login()">LoGin</button>
-        <button class="btn"  onclick="newUserDetails()">New User Account</button>
+    </div>
 </div>
 </body>
 </html>

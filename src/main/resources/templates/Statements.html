@@ -2,13 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
   <title>Statements</title>
   <style>
-    .container{
+    .container {
       position: absolute;
-      top:10%;
+      top: 20%;
       left: 10%;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 70%);
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 14px 28px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
@@ -17,12 +31,12 @@
 <div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <div class="container" style="text-align: center">
   <div class="card">
-    <div class="card-header" style="color: crimson">ACCOUNT STATEMENTS</div>
+    <div class="card-header" style="background-color: #dc3545; color: #fff;">ACCOUNT STATEMENTS</div>
     <div class="card-body">
       <table class="table table-striped table-hover">
         <thead>
         <tr>
-          <th scope="col">Description </th>
+          <th scope="col">Description</th>
           <th scope="col">Transaction ID</th>
           <th scope="col">Amount</th>
           <th scope="col">Balance</th>
@@ -45,4 +59,3 @@
 </div>
 </body>
 </html>
-</div>
