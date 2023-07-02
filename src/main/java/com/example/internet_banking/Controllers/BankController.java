@@ -229,4 +229,9 @@ public class BankController {
         return "Profile.html";
 
     }
+
+    @RequestMapping("/investments")
+    public String investments(){
+        return "Investments.html";
+    }
 }

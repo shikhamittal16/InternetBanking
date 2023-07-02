@@ -5,26 +5,76 @@
     <title>New User Details</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        body{
-            background-color : #F7F7F7!important;
+        body {
+            background-color: #F7F7F7 !important;
         }
-        label{
+
+        .container {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 70%);
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 14px 28px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: crimson;
+            color: #fff;
+        }
+
+        label {
             margin-left: 40px;
             margin-right: 40px;
             margin-top: 10px;
             margin-bottom: 10px;
         }
-        h5{
+
+        h5 {
             text-align: center;
-            color: crimson;
         }
-        #submitBtn{
-            margin-top: 20px;
+
+        .form-group input {
             padding: 10px;
-            cursor: pointer;
-            position: absolute;
-            left: 50%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 100%;
         }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0069D9;
+            box-shadow: 0 0 5px rgba(0, 105, 217, 0.5);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0069D9;
+            box-shadow: 0 0 5px rgba(0, 105, 217, 0.5);
+        }
+
+        .form-group input[type="submit"] {
+            width: 150px;
+            margin-left: 30rem;
+            background-color: transparent;
+            cursor: pointer;
+            border: 1px solid crimson;
+        }
+
+        .form-group input[type="submit"]:hover {
+            color: white;
+            background-color: crimson;
+        }
+
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script th:src="NewUserDetails.js"></script>
@@ -199,8 +249,9 @@
             </div>
         </div>
     </div>
-
-        <button class="btn btn-success" type="submit" id="submitBtn">Submit</button>
+        <div class="form-group">
+            <input type="submit" value="Save User">
+        </div>
     </form>
 </div>
 </body>

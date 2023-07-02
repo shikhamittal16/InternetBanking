@@ -5,27 +5,75 @@
     <title>New User Details</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        h2{
-            margin-top: 30px;
-            margin-bottom: 30px;
-            text-align: center;
-            color: red;
+        body {
+            background-color: #F7F7F7 !important;
         }
-        body{
-            background-color : #F7F7F7!important;
-        }
-        .btn{
-            margin-top: 30px;
-            width: 120px;
-            padding: 6px;
-            color: white;
-            cursor: pointer;
-        }
-        .container{
+
+        .container {
             position: absolute;
-            top:20%;
+            top: 10%;
             left: 10%;
-         }
+        }
+
+        .card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 70%);
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 14px 28px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: crimson;
+            color: #fff;
+        }
+
+        label {
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        h5 {
+            text-align: center;
+        }
+
+        .form-group input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0069D9;
+            box-shadow: 0 0 5px rgba(0, 105, 217, 0.5);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0069D9;
+            box-shadow: 0 0 5px rgba(0, 105, 217, 0.5);
+        }
+
+        .form-group input[type="submit"] {
+            width: 150px;
+            background-color: transparent;
+            cursor: pointer;
+            border: 1px solid crimson;
+        }
+
+        .form-group input[type="submit"]:hover {
+            color: white;
+            background-color: crimson;
+        }
+
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <script th:src="NewUserDetails.js"></script>
@@ -38,7 +86,7 @@
     <input type="hidden" name="userId" id="userId" th:value="${userData.userId}">
     <input type="hidden" name="accountNo" id="accountNo" th:value="${userData.accountNo}">
     <div class="card">
-        <div class="card-header bg-light" style="color: crimson">
+        <div class="card-header">
            <h3>Your Account Number Is :&nbsp;&nbsp;<span th:text="${userData.accountNo}"></span></h3>
         </div>
         <div class="card-body">
@@ -63,7 +111,9 @@
                     <input type="password"  class="form-control" id="password" name="password" th:value="${userData.password}" required>
                 </label>
             </div>
-            <button class="btn btn-success" type="submit">Submit</button>
+            <div class="form-group">
+                <input type="submit" value="Save User">
+            </div>
         </div>
     </div>
 </div>
