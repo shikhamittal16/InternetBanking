@@ -206,4 +206,18 @@ public class BankService{
             ex.printStackTrace();
         }
     }
+
+    public HashMap fetchUserProfileDetails(String accountNo){
+        HashMap responseMap = new HashMap();
+        try{
+            UserAccountInfo userAccountInfo = userAccountRepo.findByAccountNumber(accountNo);
+            responseMap.put("userAccountDetails", userAccountInfo);
+            responseMap.put("userPersonalDetails", userAccountInfo.getUserDetails());
+            responseMap.put("status","success");
+        }catch(Exception ex){
+            responseMap.put("status","error");
+            ex.printStackTrace();
+        }
+        return responseMap;
+    }
 }

@@ -30,6 +30,7 @@ public class NewUserDetails implements Serializable {
     private String PanCardNumber;
     private String voterId;
     private String AlternateMobileNo;
+    private String mobileNo;
     private String Gender;
     private String MaritalStatus;
     private String AccountType;

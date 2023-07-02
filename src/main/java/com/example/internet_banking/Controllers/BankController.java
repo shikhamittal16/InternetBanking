@@ -173,7 +173,6 @@ public class BankController {
 
     @RequestMapping("/donateMoney")
     public String donateMoney(Model model){
-
         model.addAttribute("currentBalance", userAccountRepo.findDepositAmountOfUser("23917579341"));
         return "DonateMoney.html";
 
@@ -219,5 +218,15 @@ public class BankController {
     @RequestMapping("/recharge")
     public String rechargeAndPay(){
         return "Recharge.html";
+    }
+
+    @RequestMapping("/userProfile")
+    public String userProfile(Model model){
+
+        HashMap responseMap = bankService.fetchUserProfileDetails("23917579341");
+        model.addAttribute("userAccountDetails", responseMap.get("userAccountDetails"));
+        model.addAttribute("userPersonalDetails", responseMap.get("userPersonalDetails"));
+        return "Profile.html";
+
     }
 }
