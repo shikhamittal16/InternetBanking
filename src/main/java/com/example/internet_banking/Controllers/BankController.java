@@ -1,22 +1,14 @@
 package com.example.internet_banking.Controllers;
 
 import com.example.internet_banking.Entities.Beneficiaries;
-import com.example.internet_banking.Entities.NewUserDetails;
-import com.example.internet_banking.Entities.UserAccountInfo;
-import com.example.internet_banking.Repositories.NewUserRepo;
-import com.example.internet_banking.Repositories.UserAccountRepo;
 import com.example.internet_banking.Services.BankService;
-import com.example.internet_banking.Services.NewUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 //th:field = isse agar hum direct object m value pass kra rhe hai to jb use krenege like saveNewUserDetails m
 //th:value = jb hum @requestParam use kr rhe hai to hashmap m value ayegi
@@ -24,68 +16,11 @@ import java.util.Optional;
 @Controller
 public class BankController {
     @Autowired
-    private NewUsersService usersService;
-    @Autowired
     private BankService bankService;
-    @Autowired
-    private UserAccountRepo userAccountRepo;
 
     @RequestMapping("/home")
     public String homeNavbar() {
         return "HomePage.html";
-    }
-
-    @RequestMapping("/newUserDetails")
-    public String NewUserDetails(Model model) {
-        try {
-            model.addAttribute("userData", new NewUserDetails());
-            return "NewUserDetails.html";
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
-
-    @RequestMapping("/userAccountDetails")
-    public String userAccountDetails(Model model, @ModelAttribute("userData") HashMap<String, String> userData) {
-        model.addAttribute("userData", userData);
-        return "NewUserDetails2.html";
-    }
-
-    @PostMapping("/saveNewUserDetails")
-    public String saveNewUserDetails(NewUserDetails newUserDetails, RedirectAttributes redirectAttributes) {
-        HashMap<String, String> map = new HashMap<>();
-        try {
-            map = usersService.saveUserPersonalDetails(newUserDetails);
-            if (map.get("status") == "error") {
-                redirectAttributes.addFlashAttribute("status", "Something went wrong");
-                return "redirect:/newUserDetails";
-            } else {
-                redirectAttributes.addFlashAttribute("userData", map);
-                return "redirect:/userAccountDetails";
-            }
-        } catch (Exception ex) {
-            map.put("status", "error");
-            ex.printStackTrace();
-            return "redirect:/newUserDetails";
-        }
-    }
-
-    @PostMapping("/saveUserAccountDetails")
-    public String saveUserAccountDetails(@RequestParam Map<String, String> userAccountInfo, RedirectAttributes redirectAttributes) {
-        HashMap<String, String> responseMap = new HashMap<>();
-        try {
-            responseMap = usersService.saveUserAccountInformation(userAccountInfo);
-            if (responseMap.get("status") == "success") {
-                redirectAttributes.addFlashAttribute("msg", "Account Created Successfully");
-                return "redirect:/login";
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "Something went wrong !! Please Try Again");
-                return "redirect:/newUserDetails";
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return "redirect:/newUserDetails";
-        }
     }
 
     @RequestMapping("/accountDetails")
@@ -103,7 +38,7 @@ public class BankController {
     @RequestMapping("/userStatements")
     public String userStatements(Model model) {
         try {
-            HashMap map = bankService.fetchUserTransactionHistory("23917579341");
+            HashMap map = bankService.fetchUserTransactionHistory("95352479341");
             if (map.get("status") == "success") {
                 model.addAttribute("statements", map.get("transactionList"));
             }else{
@@ -123,7 +58,7 @@ public class BankController {
 
     @RequestMapping("/beneficiaryList")
     public String beneficiariesList(Model model) {
-        Map responseMap = bankService.fetchAllBeneficiaries("23917579341");
+        Map responseMap = bankService.fetchAllBeneficiaries("95352479341");
         if (responseMap.get("status") == "success") {
             model.addAttribute("beneficiariesList", responseMap);
             return "BeneficiariesList.html";
@@ -135,7 +70,7 @@ public class BankController {
     @PostMapping("/saveNewBeneficiary")
     public String saveNewBeneficiary(RedirectAttributes redirectAttributes, @RequestParam HashMap beneficiaryData) {
         try {
-            HashMap map = bankService.addBeneficiary("23917579341", beneficiaryData);
+            HashMap map = bankService.addBeneficiary("95352479341", beneficiaryData);
             if (map.get("status") == "success") {
                 redirectAttributes.addFlashAttribute("msg", "Beneficiary Added Successfully");
                 return "redirect:/beneficiaryList";
@@ -151,14 +86,14 @@ public class BankController {
 
     @RequestMapping("/transactionLimit")
     public String transactionLimitTemplate(Model model){
-        model.addAttribute("transactionLimit",userAccountRepo.findTransactionLimitOfUser("23917579341"));
+        model.addAttribute("transactionLimit",bankService.findTransactionLimitOfUser("95352479341"));
         return "TransactionLimit.html";
     }
 
     @PostMapping("/updateTransactionLimit")
     public String updateTransactionLimit(@RequestParam HashMap transactionLimit, RedirectAttributes ra) {
         try {
-            HashMap responseMap = bankService.updateTransactionLimit(transactionLimit, "23917579341");
+            HashMap responseMap = bankService.updateTransactionLimit(transactionLimit, "95352479341");
             if(responseMap.get("status") == "success"){
                 ra.addFlashAttribute("msg","Your Transaction Limit has been updated successfully");
             }else{
@@ -173,7 +108,7 @@ public class BankController {
 
     @RequestMapping("/donateMoney")
     public String donateMoney(Model model){
-        model.addAttribute("currentBalance", userAccountRepo.findDepositAmountOfUser("23917579341"));
+        model.addAttribute("currentBalance", bankService.findDepositAmountOfUser("95352479341"));
         return "DonateMoney.html";
 
     }
@@ -181,7 +116,7 @@ public class BankController {
     @PostMapping("/sendDonation")
     public String donateToPMCareFund(@RequestParam HashMap<String,String> donationAmount, RedirectAttributes ra){
         try{
-            HashMap responseMap = bankService.donateToPMCareFund(donationAmount,"23917579341");
+            HashMap responseMap = bankService.donateToPMCareFund(donationAmount,"95352479341");
             if(responseMap.get("status") == "success"){
                 ra.addFlashAttribute("msg","Thank You For Your Contribution");
             } else if(responseMap.get("status") == "amountError"){
@@ -198,7 +133,7 @@ public class BankController {
     @PostMapping("/transferMoney")
     public String transferMoney(@RequestParam HashMap transferMoney, RedirectAttributes ra){
         try{
-            HashMap responseMap = bankService.transferMoney(transferMoney, "23917579341");
+            HashMap responseMap = bankService.transferMoney(transferMoney, "95352479341");
             if(responseMap.get("status") == "success"){
                 ra.addFlashAttribute("msg","Transaction Successful");
             }else if(responseMap.get("status") == "amountError"){
@@ -223,7 +158,7 @@ public class BankController {
     @RequestMapping("/userProfile")
     public String userProfile(Model model){
 
-        HashMap responseMap = bankService.fetchUserProfileDetails("23917579341");
+        HashMap responseMap = bankService.fetchUserProfileDetails("95352479341");
         model.addAttribute("userAccountDetails", responseMap.get("userAccountDetails"));
         model.addAttribute("userPersonalDetails", responseMap.get("userPersonalDetails"));
         return "Profile.html";

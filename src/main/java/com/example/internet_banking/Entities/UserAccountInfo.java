@@ -20,7 +20,7 @@ public class UserAccountInfo {
     private String password ;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userDetailsId")
-    private NewUserDetails userDetails ;
+    private UserPersonalDetails userDetails ;
     private BigDecimal depositBalance ;
     private String crnNumber ;
     private String crnName ;
