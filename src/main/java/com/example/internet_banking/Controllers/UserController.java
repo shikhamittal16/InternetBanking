@@ -59,7 +59,11 @@ public class UserController {
             if (Objects.equals(responseMap.get("status"), "success")) {
                 redirectAttributes.addFlashAttribute("msg", "Account Created Successfully");
                 return "redirect:/login";
-            } else {
+            } else if(Objects.equals(responseMap.get("status"), "UserName Already Exist")){
+                redirectAttributes.addFlashAttribute("msg2","UserName Already Exist !!");
+                redirectAttributes.addFlashAttribute("userData", responseMap);
+                return "redirect:/userAccountDetails";
+            }else {
                 redirectAttributes.addFlashAttribute("msg2", "Something went wrong !! Please Try Again");
                 return "redirect:/newUserDetails";
             }

@@ -53,5 +53,6 @@ public class UserPersonalDetails implements Serializable {
     @JoinColumn(name = "accountNo")
     @OneToOne(fetch = FetchType.LAZY)
     private UserAccountInfo accountInfo;
+    private String maturityDate;
 }
 

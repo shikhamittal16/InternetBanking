@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 //th:field = agar hum direct object m value pass kra rhe hai to jb use krenge like saveNewUserDetails m
 //th:value = jb hum @requestParam use kr rhe hai to hashmap m value ayegi
@@ -24,13 +25,18 @@ public class BankController {
     }
 
     @RequestMapping("/accountDetails")
-    public String accountDetails(Model model, RedirectAttributes ra) {
-        HashMap responseMap = bankService.fetchUserAccountDetails();
-        if (responseMap.get("status") == "Account Not Found") {
-            ra.addFlashAttribute("msg", "User Account Not Found");
+    public String accountDetails(Model model) {
+        HashMap<String, String> responseMap = bankService.fetchUserAccountDetails();
+        if (Objects.equals(responseMap.get("status"), "Account Not Found")) {
+            return "redirect:/login";
+        } else if(Objects.equals(responseMap.get("status"), "error")){
             return "redirect:/home";
         } else {
-            model.addAttribute("accountDetails", responseMap);
+            model.addAttribute("accountDetails", responseMap.get("accountDetails"));
+            model.addAttribute("CurrentAccount", responseMap.get("CurrentAccount"));
+            model.addAttribute("SavingAccount", responseMap.get("SavingAccount"));
+            model.addAttribute("FixedDepositAccount", responseMap.get("FixedDepositAccount"));
+            model.addAttribute("RecurringDepositAccount", responseMap.get("RecurringDepositAccount"));
             return "AccountDetails.html";
         }
     }

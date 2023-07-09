@@ -2,8 +2,11 @@ package com.example.internet_banking.Entities;
 
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity

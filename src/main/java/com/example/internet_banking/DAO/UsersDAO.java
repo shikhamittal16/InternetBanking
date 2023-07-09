@@ -120,4 +120,16 @@ public class UsersDAO {
         }
         return userAccountInfo;
     }
+
+    public List fetchTotalAccountDetailsOfCurrentUser(String aadharNo){
+        Session sx = sessionFactory.getCurrentSession();
+        List list = new ArrayList<>();
+        try{
+            list = sx.createQuery("select u from UserAccountInfo u where u.userDetails.aadhar =:aadhar")
+                    .setParameter("aadhar",aadharNo).list();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return list;
+    }
 }

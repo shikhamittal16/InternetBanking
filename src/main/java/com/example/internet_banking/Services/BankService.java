@@ -21,21 +21,30 @@ public class BankService{
     private Long currentUserId;
     private UserAccountInfo currentUserAccount;
 
-    public HashMap<String , String> fetchUserAccountDetails(){
-        HashMap<String,String> map = new HashMap<>();
+    public HashMap fetchUserAccountDetails(){
+        HashMap map = new HashMap();
         try{
-            currentUserId = loginDAO.fetchCurrentLoginUser();
-            currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            if(currentUserAccount == null){
+                currentUserId = loginDAO.fetchCurrentLoginUser();
+                currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            }
             if(currentUserAccount != null){
-                map.put("depositBalance",currentUserAccount.getDepositBalance().toString());
-                map.put("crnId",currentUserAccount.getCrnNumber());
-                map.put("crnName",currentUserAccount.getCrnName());
-                map.put("currency",currentUserAccount.getCurrency());
-                map.put("custName",currentUserAccount.getUserDetails().getFullName());
-                map.put("accountNo",currentUserAccount.getAccountNo());
-                map.put("crnNo",currentUserAccount.getCrnNumber());
-                map.put("accountType",currentUserAccount.getUserDetails().getAccountType());
-                map.put("withdrawableBalance",currentUserAccount.getWithdrawableBalance()!=null ? currentUserAccount.getWithdrawableBalance().toString() : "");
+                map.put("accountDetails",fetchCurrentAccountDetails());
+                List allAccountsList = usersDAO.fetchTotalAccountDetailsOfCurrentUser(currentUserAccount.getUserDetails().getAadhar());
+                for (int i=0 ; i<allAccountsList.size() ; i++){
+                    HashMap tempMap = new HashMap();
+                    UserAccountInfo currentAccount = (UserAccountInfo) allAccountsList.get(i);
+                    tempMap.put("depositBalance",currentAccount.getDepositBalance().toString());
+                    tempMap.put("crnId",currentAccount.getCrnNumber());
+                    tempMap.put("crnName",currentAccount.getCrnName());
+                    tempMap.put("currency",currentAccount.getCurrency());
+                    tempMap.put("custName",currentAccount.getUserDetails().getFullName());
+                    tempMap.put("accountNo",currentAccount.getAccountNo());
+                    tempMap.put("crnNo",currentAccount.getCrnNumber());
+                    tempMap.put("accountType",currentAccount.getUserDetails().getAccountType());
+                    tempMap.put("withdrawableBalance",currentAccount.getWithdrawableBalance()!=null ? currentAccount.getWithdrawableBalance().toString() : "");
+                    map.put(currentAccount.getUserDetails().getAccountType(), tempMap);
+                }
                 map.put("status","success");
             }
             else{
@@ -249,5 +258,15 @@ public class BankService{
             currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
         }
         return currentUserAccount.getDepositBalance();
+    }
+
+    public HashMap fetchCurrentAccountDetails(){
+        HashMap map = new HashMap();
+        map.put("currency",currentUserAccount.getCurrency());
+        map.put("depositBalance",currentUserAccount.getDepositBalance());
+        map.put("custName",currentUserAccount.getUserDetails().getFullName());
+        map.put("crnNo",currentUserAccount.getCrnNumber());
+        map.put("crnName",currentUserAccount.getCrnName());
+        return map;
     }
 }

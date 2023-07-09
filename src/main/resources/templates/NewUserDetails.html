@@ -204,7 +204,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="AccountType"> Account Type
-                        <select id="AccountType" class="form-control" style="width: 15rem" th:field="*{AccountType}" required>
+                        <select id="AccountType" class="form-control" style="width: 15rem" th:field="*{AccountType}" onchange="checkAccountType(this.value)" required>
                             <option value="" style="font-size: small" selected>Select Account</option>
                             <option value="CurrentAccount" style="font-size: small" >Current Account</option>
                             <option value="SavingAccount" style="font-size: small" >Saving Account</option>
@@ -212,15 +212,18 @@
                             <option value="RecurringDepositAccount" style="font-size: small" >Recurring Deposit Account</option>
                         </select>
                     </label>
+                    <label for="maturityDate"> Maturity Date
+                        <input type="date" style="width: 15rem" th:field="*{maturityDate}" id="maturityDate" class="form-control" disabled>
+                    </label>
                     <label for="BankName"> Bank Name
                         <input type="text" style="width: 15rem" class="form-control" th:field="*{BankName}" id="BankName" required>
-                    </label>
-                    <label for="IFSC"> IFSC Code
-                        <input type="text" style="width: 15rem" class="form-control" th:field="*{IFSC}" id="IFSC" required>
                     </label>
                 </div>
 
                 <div class="form-group">
+                    <label for="IFSC"> IFSC Code
+                        <input type="text" style="width: 15rem" class="form-control" th:field="*{IFSC}" id="IFSC" required>
+                    </label>
                     <label for="BankBranch"> Bank Branch
                         <input type="text" class="form-control" style="width: 15rem" th:field="*{BankBranch}" id="BankBranch" required>
                     </label>
@@ -254,5 +257,14 @@
         </div>
     </form>
 </div>
+<script>
+    function checkAccountType(accountType){
+        if(accountType == "FixedDepositAccount" || accountType == "RecurringDepositAccount"){
+            document.getElementById("maturityDate").disabled =  false;
+        }else{
+            document.getElementById("maturityDate").disabled =  true;
+        }
+    }
+</script>
 </body>
 </html>
