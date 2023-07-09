@@ -1,5 +1,6 @@
 package com.example.internet_banking.Services;
 
+import com.example.internet_banking.DAO.LoginDAO;
 import com.example.internet_banking.DAO.UsersDAO;
 import com.example.internet_banking.Entities.Beneficiaries;
 import com.example.internet_banking.Entities.Transactions;
@@ -15,21 +16,26 @@ import java.util.List;
 public class BankService{
     @Autowired
     private UsersDAO usersDAO;
+    @Autowired
+    private LoginDAO loginDAO;
+    private Long currentUserId;
+    private UserAccountInfo currentUserAccount;
 
     public HashMap<String , String> fetchUserAccountDetails(){
         HashMap<String,String> map = new HashMap<>();
         try{
-            UserAccountInfo account = usersDAO.getUserAccountDetailsByAccountNumber("95352479341");
-            if(account != null){
-                map.put("depositBalance",account.getDepositBalance().toString());
-                map.put("crnId",account.getCrnNumber());
-                map.put("crnName",account.getCrnName());
-                map.put("currency",account.getCurrency());
-                map.put("custName",account.getUserDetails().getFullName());
-                map.put("accountNo",account.getAccountNo());
-                map.put("crnNo",account.getCrnNumber());
-                map.put("accountType",account.getUserDetails().getAccountType());
-                map.put("withdrawableBalance",account.getWithdrawableBalance()!=null ? account.getWithdrawableBalance().toString() : "");
+            currentUserId = loginDAO.fetchCurrentLoginUser();
+            currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            if(currentUserAccount != null){
+                map.put("depositBalance",currentUserAccount.getDepositBalance().toString());
+                map.put("crnId",currentUserAccount.getCrnNumber());
+                map.put("crnName",currentUserAccount.getCrnName());
+                map.put("currency",currentUserAccount.getCurrency());
+                map.put("custName",currentUserAccount.getUserDetails().getFullName());
+                map.put("accountNo",currentUserAccount.getAccountNo());
+                map.put("crnNo",currentUserAccount.getCrnNumber());
+                map.put("accountType",currentUserAccount.getUserDetails().getAccountType());
+                map.put("withdrawableBalance",currentUserAccount.getWithdrawableBalance()!=null ? currentUserAccount.getWithdrawableBalance().toString() : "");
                 map.put("status","success");
             }
             else{
@@ -42,15 +48,14 @@ public class BankService{
         return map ;
     }
 
-    public HashMap saveUserTransaction(String userAccountNumber , HashMap transDetails){
+    public HashMap saveUserTransaction(HashMap transDetails){
         Transactions transactions = new Transactions();
         HashMap responseMap = new HashMap<>();
         try{
             transactions.setTransactionAmount((BigDecimal) transDetails.get("transactionAmount"));
             transactions.setTransactionDate(new Date());
             transactions.setTransDescription((String) transDetails.get("description"));
-            UserAccountInfo userAccount = usersDAO.getUserAccountDetailsByAccountNumber(userAccountNumber);
-            transactions.setUserTransactions(userAccount);
+            transactions.setUserTransactions(currentUserAccount);
             usersDAO.saveUserTransactions(transactions);
             responseMap.put("status","success");
             responseMap.put("transactionId",transactions.getTransactionId());
@@ -60,11 +65,14 @@ public class BankService{
         }
         return responseMap;
     }
-    public HashMap fetchUserTransactionHistory(String userAccountNumber){
+    public HashMap fetchUserTransactionHistory(){
        HashMap responseMap = new HashMap();
        try{
-           UserAccountInfo userAccount = usersDAO.getUserAccountDetailsByAccountNumber(userAccountNumber);
-           List<Transactions> transactionsList = usersDAO.findAllTransactionsByUserAccountNo(userAccount);
+           if(currentUserAccount == null){
+               currentUserId = loginDAO.fetchCurrentLoginUser();
+               currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+           }
+           List<Transactions> transactionsList = usersDAO.findAllTransactionsByUserAccountNo(currentUserAccount);
            responseMap.put("transactionList",transactionsList);
            responseMap.put("status","success");
        }catch(Exception ex){
@@ -74,14 +82,17 @@ public class BankService{
        return responseMap;
     }
 
-    public HashMap<String ,String> addBeneficiary(String userAccountNo, HashMap<String,String> beneficiaryMap){
+    public HashMap<String ,String> addBeneficiary(HashMap<String,String> beneficiaryMap){
         Beneficiaries beneficiary = new Beneficiaries();
         HashMap<String,String> responseMap = new HashMap<>();
         try{
-            UserAccountInfo userAccount = usersDAO.getUserAccountDetailsByAccountNumber(userAccountNo);
+            if(currentUserAccount == null){
+                currentUserId = loginDAO.fetchCurrentLoginUser();
+                currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            }
             beneficiary.setBeneficiaryName(beneficiaryMap.get("beneficiaryName"));
             beneficiary.setBeneficiaryAccountNo(beneficiaryMap.get("beneficiaryAccountNo"));
-            beneficiary.setUserAccounts(userAccount);
+            beneficiary.setUserAccounts(currentUserAccount);
             usersDAO.saveUserBeneficiaryDetails(beneficiary);
             responseMap.put("status","success");
         }catch(Exception ex){
@@ -91,11 +102,14 @@ public class BankService{
         return  responseMap;
     }
 
-    public HashMap fetchAllBeneficiaries(String userAccountNumber){
+    public HashMap fetchAllBeneficiaries(){
         HashMap responseMap = new HashMap<>();
         try{
-            UserAccountInfo userAccount = usersDAO.getUserAccountDetailsByAccountNumber(userAccountNumber);
-            List<Beneficiaries> beneficiaries = usersDAO.fetchAllBeneficiaries(userAccount);
+            if(currentUserAccount == null){
+                currentUserId = loginDAO.fetchCurrentLoginUser();
+                currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            }
+            List<Beneficiaries> beneficiaries = usersDAO.fetchAllBeneficiaries(currentUserAccount);
             responseMap.put("beneficiaries", beneficiaries);
             responseMap.put("status","success");
         }catch (Exception ex){
@@ -105,12 +119,15 @@ public class BankService{
         return responseMap;
     }
 
-    public HashMap updateTransactionLimit( HashMap<String,String> transactionLimitMap, String accountNo){
+    public HashMap updateTransactionLimit( HashMap<String,String> transactionLimitMap){
         HashMap responseMap = new HashMap();
         try{
-            UserAccountInfo userAccount = usersDAO.getUserAccountDetailsByAccountNumber(accountNo);
-            userAccount.setTransactionLimit(new BigDecimal(transactionLimitMap.get("transactionLimit")));
-            usersDAO.saveUserAccountInformation(userAccount);
+            if(currentUserAccount == null){
+                currentUserId = loginDAO.fetchCurrentLoginUser();
+                currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            }
+            currentUserAccount.setTransactionLimit(new BigDecimal(transactionLimitMap.get("transactionLimit")));
+            usersDAO.saveUserAccountInformation(currentUserAccount);
             responseMap.put("status","success");
         }catch(Exception ex){
             responseMap.put("status","error");
@@ -119,18 +136,21 @@ public class BankService{
         return responseMap;
     }
 
-    public HashMap donateToPMCareFund(HashMap<String,String> donationMoney , String accountNo){
+    public HashMap donateToPMCareFund(HashMap<String,String> donationMoney){
         HashMap respMap = new HashMap();
         try{
-            UserAccountInfo userAccountInfo = usersDAO.getUserAccountDetailsByAccountNumber(accountNo);
-            BigDecimal currentAmt = userAccountInfo.getDepositBalance();
+            if(currentUserAccount == null){
+                currentUserId = loginDAO.fetchCurrentLoginUser();
+                currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            }
+            BigDecimal currentAmt = currentUserAccount.getDepositBalance();
             BigDecimal donationAmt = new BigDecimal(donationMoney.get("donationAmount"));
             if(currentAmt.compareTo(donationAmt) < 0){
                 respMap.put("status","amountError");
             } else{
-                userAccountInfo.setDepositBalance(currentAmt.subtract(donationAmt));
-                usersDAO.saveUserAccountInformation(userAccountInfo);
-                setTransactionDetailsOfUser("withdrawal",userAccountInfo, donationAmt, "Donate to PM-Cares Fund");
+                currentUserAccount.setDepositBalance(currentAmt.subtract(donationAmt));
+                usersDAO.saveUserAccountInformation(currentUserAccount);
+                setTransactionDetailsOfUser("withdrawal",currentUserAccount, donationAmt, "Donate to PM-Cares Fund");
                 respMap.put("status","success");
              }
         }catch(Exception ex){
@@ -140,20 +160,23 @@ public class BankService{
         return respMap;
     }
 
-    public HashMap transferMoney(HashMap transferMoney , String accountNo){
+    public HashMap transferMoney(HashMap transferMoney){
         HashMap responseMap = new HashMap();
         try{
-            UserAccountInfo userAccountInfo = usersDAO.getUserAccountDetailsByAccountNumber(accountNo);
-            List<Beneficiaries> beneficiaries = usersDAO.fetchAllBeneficiaries(userAccountInfo);
+            if(currentUserAccount == null){
+                currentUserId = loginDAO.fetchCurrentLoginUser();
+                currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            }
+            List<Beneficiaries> beneficiaries = usersDAO.fetchAllBeneficiaries(currentUserAccount);
             for(int i=0 ; i<beneficiaries.size() ; i++){
                 Long beneficiaryId = beneficiaries.get(i).getBeneficiaryId();
                 if(transferMoney.containsKey("beneficiary-"+beneficiaryId) &&
                         transferMoney.get("beneficiary-"+beneficiaryId) != null &&
                         transferMoney.get("beneficiary-"+beneficiaryId) != ""){
                     BigDecimal transferAmt = new BigDecimal(transferMoney.get("beneficiary-"+beneficiaryId).toString());
-                    if(transferAmt.compareTo(userAccountInfo.getDepositBalance())>0){
+                    if(transferAmt.compareTo(currentUserAccount.getDepositBalance())>0){
                         responseMap.put("status","amountError");
-                    } else if(transferAmt.compareTo(userAccountInfo.getTransactionLimit())>0){
+                    } else if(transferAmt.compareTo(currentUserAccount.getTransactionLimit())>0){
                         responseMap.put("status","limitError");
                     } else {
                         UserAccountInfo beneficiaryAcc = usersDAO.getUserAccountDetailsByAccountNumber(beneficiaries.get(i).getBeneficiaryAccountNo());
@@ -162,14 +185,14 @@ public class BankService{
                                     beneficiaryAcc.getDepositBalance().add
                                             (transferAmt));
                             usersDAO.saveUserAccountInformation(beneficiaryAcc);
-                            setTransactionDetailsOfUser("deposit",beneficiaryAcc,transferAmt,userAccountInfo.getUserDetails().getFullName());
+                            setTransactionDetailsOfUser("deposit",beneficiaryAcc,transferAmt,currentUserAccount.getUserDetails().getFullName());
                         }
-                        userAccountInfo.setDepositBalance(userAccountInfo.getDepositBalance().
+                        currentUserAccount.setDepositBalance(currentUserAccount.getDepositBalance().
                                 subtract(transferAmt));
-                        userAccountInfo.setWithdrawableBalance(userAccountInfo.getWithdrawableBalance().
+                        currentUserAccount.setWithdrawableBalance(currentUserAccount.getWithdrawableBalance().
                                 subtract(transferAmt));
-                        usersDAO.saveUserAccountInformation(userAccountInfo);
-                        setTransactionDetailsOfUser("withdrawal",userAccountInfo,transferAmt,beneficiaryAcc.getUserDetails().getFullName());
+                        usersDAO.saveUserAccountInformation(currentUserAccount);
+                        setTransactionDetailsOfUser("withdrawal",currentUserAccount,transferAmt,beneficiaryAcc.getUserDetails().getFullName());
                         responseMap.put("status","success");
                     }
                 }
@@ -195,12 +218,15 @@ public class BankService{
         }
     }
 
-    public HashMap fetchUserProfileDetails(String accountNo){
+    public HashMap fetchUserProfileDetails(){
         HashMap responseMap = new HashMap();
         try{
-            UserAccountInfo userAccountInfo = usersDAO.getUserAccountDetailsByAccountNumber(accountNo);
-            responseMap.put("userAccountDetails", userAccountInfo);
-            responseMap.put("userPersonalDetails", userAccountInfo.getUserDetails());
+            if(currentUserAccount == null){
+                currentUserId = loginDAO.fetchCurrentLoginUser();
+                currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+            }
+            responseMap.put("userAccountDetails", currentUserAccount);
+            responseMap.put("userPersonalDetails", currentUserAccount.getUserDetails());
             responseMap.put("status","success");
         }catch(Exception ex){
             responseMap.put("status","error");
@@ -209,13 +235,19 @@ public class BankService{
         return responseMap;
     }
 
-    public BigDecimal findTransactionLimitOfUser(String accountNo){
-        UserAccountInfo userAccountInfo = usersDAO.getUserAccountDetailsByAccountNumber(accountNo);
-        return userAccountInfo.getTransactionLimit();
+    public BigDecimal findTransactionLimitOfUser(){
+        if(currentUserAccount == null){
+            currentUserId = loginDAO.fetchCurrentLoginUser();
+            currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+        }
+        return currentUserAccount.getTransactionLimit();
     }
 
-    public BigDecimal findDepositAmountOfUser(String accountNO){
-        UserAccountInfo userAccountInfo = usersDAO.getUserAccountDetailsByAccountNumber(accountNO);
-        return userAccountInfo.getDepositBalance();
+    public BigDecimal findDepositAmountOfUser(){
+        if(currentUserAccount == null){
+            currentUserId = loginDAO.fetchCurrentLoginUser();
+            currentUserAccount = usersDAO.getUserAccountDetailsByAccountId(currentUserId);
+        }
+        return currentUserAccount.getDepositBalance();
     }
 }

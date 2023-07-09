@@ -57,6 +57,18 @@ public class UsersDAO {
         return userAccountInfo;
     }
 
+    public UserAccountInfo getUserAccountDetailsByAccountId(Long accountId){
+        Session session = sessionFactory.getCurrentSession();
+        UserAccountInfo userAccountInfo = new UserAccountInfo();
+        try{
+            userAccountInfo = (UserAccountInfo) session.createQuery("SELECT u FROM UserAccountInfo u WHERE u.userAccountId =:accountId")
+                    .setParameter("accountId",accountId).uniqueResult();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return userAccountInfo;
+    }
+
     public void saveUserTransactions(Transactions transactions){
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
@@ -95,5 +107,17 @@ public class UsersDAO {
             ex.printStackTrace();
         }
         return beneficiaries;
+    }
+
+    public UserAccountInfo findUserByLoginIdAndPassword(String loginId, String password){
+        Session sx = sessionFactory.getCurrentSession();
+        UserAccountInfo userAccountInfo = new UserAccountInfo();
+        try{
+            userAccountInfo = (UserAccountInfo) sx.createQuery("SELECT u FROM UserAccountInfo u WHERE u.loginUserName =:loginId and u.password =:password")
+                    .setParameter("loginId",loginId).setParameter("password",password).uniqueResult();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return userAccountInfo;
     }
 }

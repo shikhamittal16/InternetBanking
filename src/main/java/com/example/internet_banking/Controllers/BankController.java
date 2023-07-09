@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.HashMap;
 import java.util.Map;
 
-//th:field = isse agar hum direct object m value pass kra rhe hai to jb use krenege like saveNewUserDetails m
+//th:field = agar hum direct object m value pass kra rhe hai to jb use krenge like saveNewUserDetails m
 //th:value = jb hum @requestParam use kr rhe hai to hashmap m value ayegi
 //name is sending as a key in map from view to backend
 @Controller
@@ -38,7 +38,7 @@ public class BankController {
     @RequestMapping("/userStatements")
     public String userStatements(Model model) {
         try {
-            HashMap map = bankService.fetchUserTransactionHistory("95352479341");
+            HashMap map = bankService.fetchUserTransactionHistory();
             if (map.get("status") == "success") {
                 model.addAttribute("statements", map.get("transactionList"));
             }else{
@@ -58,7 +58,7 @@ public class BankController {
 
     @RequestMapping("/beneficiaryList")
     public String beneficiariesList(Model model) {
-        Map responseMap = bankService.fetchAllBeneficiaries("95352479341");
+        Map responseMap = bankService.fetchAllBeneficiaries();
         if (responseMap.get("status") == "success") {
             model.addAttribute("beneficiariesList", responseMap);
             return "BeneficiariesList.html";
@@ -70,7 +70,8 @@ public class BankController {
     @PostMapping("/saveNewBeneficiary")
     public String saveNewBeneficiary(RedirectAttributes redirectAttributes, @RequestParam HashMap beneficiaryData) {
         try {
-            HashMap map = bankService.addBeneficiary("95352479341", beneficiaryData);
+
+            HashMap map = bankService.addBeneficiary(beneficiaryData);
             if (map.get("status") == "success") {
                 redirectAttributes.addFlashAttribute("msg", "Beneficiary Added Successfully");
                 return "redirect:/beneficiaryList";
@@ -86,14 +87,14 @@ public class BankController {
 
     @RequestMapping("/transactionLimit")
     public String transactionLimitTemplate(Model model){
-        model.addAttribute("transactionLimit",bankService.findTransactionLimitOfUser("95352479341"));
+        model.addAttribute("transactionLimit",bankService.findTransactionLimitOfUser());
         return "TransactionLimit.html";
     }
 
     @PostMapping("/updateTransactionLimit")
     public String updateTransactionLimit(@RequestParam HashMap transactionLimit, RedirectAttributes ra) {
         try {
-            HashMap responseMap = bankService.updateTransactionLimit(transactionLimit, "95352479341");
+            HashMap responseMap = bankService.updateTransactionLimit(transactionLimit);
             if(responseMap.get("status") == "success"){
                 ra.addFlashAttribute("msg","Your Transaction Limit has been updated successfully");
             }else{
@@ -108,7 +109,7 @@ public class BankController {
 
     @RequestMapping("/donateMoney")
     public String donateMoney(Model model){
-        model.addAttribute("currentBalance", bankService.findDepositAmountOfUser("95352479341"));
+        model.addAttribute("currentBalance", bankService.findDepositAmountOfUser());
         return "DonateMoney.html";
 
     }
@@ -116,7 +117,7 @@ public class BankController {
     @PostMapping("/sendDonation")
     public String donateToPMCareFund(@RequestParam HashMap<String,String> donationAmount, RedirectAttributes ra){
         try{
-            HashMap responseMap = bankService.donateToPMCareFund(donationAmount,"95352479341");
+            HashMap responseMap = bankService.donateToPMCareFund(donationAmount);
             if(responseMap.get("status") == "success"){
                 ra.addFlashAttribute("msg","Thank You For Your Contribution");
             } else if(responseMap.get("status") == "amountError"){
@@ -133,7 +134,7 @@ public class BankController {
     @PostMapping("/transferMoney")
     public String transferMoney(@RequestParam HashMap transferMoney, RedirectAttributes ra){
         try{
-            HashMap responseMap = bankService.transferMoney(transferMoney, "95352479341");
+            HashMap responseMap = bankService.transferMoney(transferMoney);
             if(responseMap.get("status") == "success"){
                 ra.addFlashAttribute("msg","Transaction Successful");
             }else if(responseMap.get("status") == "amountError"){
@@ -158,7 +159,7 @@ public class BankController {
     @RequestMapping("/userProfile")
     public String userProfile(Model model){
 
-        HashMap responseMap = bankService.fetchUserProfileDetails("95352479341");
+        HashMap responseMap = bankService.fetchUserProfileDetails();
         model.addAttribute("userAccountDetails", responseMap.get("userAccountDetails"));
         model.addAttribute("userPersonalDetails", responseMap.get("userPersonalDetails"));
         return "Profile.html";

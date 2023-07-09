@@ -75,48 +75,33 @@
         function newUserDetails() {
             window.location.href = "newUserDetails";
         }
-
-        function login() {
-            var login = $('#loginId').val();
-            var password = $('#password').val();
-            var obj = {
-                loginId: login,
-                password: password
-            }
-            $.ajax({
-                url: "login",
-                type: "GET",
-                data: obj,
-                success: function (data) {
-
-                }
-            })
-        }
     </script>
 </head>
 <body>
 <div th:if="${msg}" class="alert alert-success text-center">[[${msg}]]</div>
 <div th:if="${msg2}" class="alert alert-danger text-center">[[${msg2}]]</div>
 <div class="login">
+    <form action="#" th:action="@{/validateUser}" method="post">
     <div class="card">
         <div class="card-header">
             <h4>Login To Your Account</h4>
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <input type="text" class="form-control" name="loginId" id="loginId" placeholder="Enter Login Id" required>
+                <input type="text" class="form-control" name="loginId" id="loginId" th:value="${loginId}" placeholder="Enter Login Id" required>
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
+                <input type="password" class="form-control" name="password" id="password" th:value="${password}" placeholder="Enter Password" required>
             </div>
             <div class="mb-3">
-                <button class="submit btn" onclick="login()">Login</button>
+                <button class="submit btn" type="submit">Login</button>
             </div>
             <div class="mb-3">
                 <button class="btn" onclick="newUserDetails()">New User Account</button>
             </div>
         </div>
     </div>
+    </form>
 </div>
 </body>
 </html>
