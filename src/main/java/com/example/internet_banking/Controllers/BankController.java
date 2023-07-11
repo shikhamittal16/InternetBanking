@@ -176,4 +176,10 @@ public class BankController {
     public String investments(){
         return "Investments.html";
     }
+
+    @RequestMapping("/rechargeNow")
+    public String mobileAndDishRecharge(){
+        return "MobileAndDishRecharge.html";
+    }
+
 }
